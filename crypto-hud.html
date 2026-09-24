@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Morning Prices · HUD · 24 Sep 2026</title>
+<style>
+  :root {
+    --text: #f2f6ff;
+    --muted: #9aa8c7;
+    --green: #39d98a;
+    --green-dim: rgba(57, 217, 138, 0.18);
+    --red: #ff6b7a;
+    --red-dim: rgba(255, 107, 122, 0.18);
+    --cyan: #5ce1ff;
+    --glass: rgba(18, 24, 48, 0.55);
+    --glass-edge: rgba(92, 225, 255, 0.45);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 28px 14px;
+    font-family: "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(900px 520px at 15% 10%, #1a2b6b 0%, transparent 55%),
+      radial-gradient(800px 480px at 90% 20%, #0d4a5c 0%, transparent 50%),
+      radial-gradient(700px 500px at 50% 100%, #1a1040 0%, transparent 55%),
+      #070b18;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -20%;
+    background:
+      conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(92,225,255,0.07) 60deg, transparent 120deg, rgba(57,217,138,0.05) 200deg, transparent 280deg);
+    animation: spin 28s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  .hint {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    z-index: 2;
+  }
+  .card {
+    position: relative;
+    z-index: 2;
+    width: min(540px, 100%);
+    padding: 22px 20px 16px;
+    border-radius: 22px;
+    background: var(--glass);
+    border: 1px solid var(--glass-edge);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04) inset,
+      0 0 40px rgba(92, 225, 255, 0.12),
+      0 24px 60px rgba(0,0,0,0.45);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(120deg, transparent, rgba(92,225,255,0.7), transparent, rgba(57,217,138,0.35), transparent);
+    background-size: 200% 200%;
+    animation: shimmer 6s linear infinite;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .card:hover, .card:focus-visible {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.06) inset,
+      0 0 55px rgba(92, 225, 255, 0.22),
+      0 28px 70px rgba(0,0,0,0.55);
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    margin: 6px 0 0;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: var(--cyan);
+    border: 1px solid rgba(92, 225, 255, 0.45);
+    background: rgba(92, 225, 255, 0.1);
+    box-shadow: 0 0 16px rgba(92, 225, 255, 0.2);
+  }
+  .col-heads {
+    display: grid;
+    grid-template-columns: minmax(96px, 1.1fr) 82px minmax(130px, 1.3fr);
+    gap: 8px;
+    padding: 0 12px 8px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0 8px;
+    font-size: 0.7rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cyan);
+  }
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(92,225,255,0.45), transparent);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(96px, 1.1fr) 82px minmax(130px, 1.3fr);
+    gap: 8px;
+    align-items: center;
+    padding: 11px 12px;
+    margin-bottom: 8px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .row:hover {
+    background: rgba(92, 225, 255, 0.06);
+    border-color: rgba(92, 225, 255, 0.22);
+  }
+  .asset .ticker { font-weight: 750; font-size: 0.95rem; letter-spacing: 0.04em; }
+  .asset .price { font-size: 0.76rem; color: var(--muted); margin-top: 3px; }
+  .asset .price strong { color: var(--text); font-weight: 600; }
+  .pct {
+    font-weight: 750;
+    font-size: 0.86rem;
+    padding: 6px 8px;
+    border-radius: 9px;
+    justify-self: start;
+    white-space: nowrap;
+  }
+  .pct.up { color: var(--green); background: var(--green-dim); box-shadow: 0 0 12px rgba(57,217,138,0.15); }
+  .pct.down { color: var(--red); background: var(--red-dim); box-shadow: 0 0 12px rgba(255,107,122,0.15); }
+  .dma { font-size: 0.78rem; color: var(--muted); line-height: 1.35; }
+  .dma strong { color: var(--text); font-weight: 600; }
+  .dma .gap {
+    display: inline-block;
+    margin-top: 5px;
+    font-weight: 750;
+    font-size: 0.76rem;
+    padding: 3px 8px;
+    border-radius: 7px;
+  }
+  .dma .gap.up { color: var(--green); background: var(--green-dim); }
+  .dma .gap.down { color: var(--red); background: var(--red-dim); }
+  .note {
+    margin: 2px 4px 0;
+    font-size: 0.68rem;
+    color: var(--muted);
+    line-height: 1.45;
+    opacity: 0.9;
+  }
+  .footer {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+  .tap { color: var(--cyan); font-weight: 650; }
+
+  .modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    place-items: center;
+    padding: 20px 14px;
+    background: rgba(4, 8, 20, 0.72);
+    backdrop-filter: blur(10px);
+    z-index: 50;
+  }
+  .modal.open { display: grid; }
+  .modal-inner {
+    width: min(800px, 100%);
+    max-height: min(92vh, 920px);
+    overflow: auto;
+    border-radius: 22px;
+    background: rgba(14, 20, 42, 0.88);
+    border: 1px solid rgba(92, 225, 255, 0.4);
+    box-shadow: 0 0 50px rgba(92, 225, 255, 0.18), 0 30px 80px rgba(0,0,0,0.55);
+    padding: 24px;
+    animation: pop 0.2s ease;
+  }
+  @keyframes pop {
+    from { transform: scale(0.96); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .modal-top h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+  }
+  .close {
+    appearance: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid rgba(92, 225, 255, 0.35);
+    background: rgba(92, 225, 255, 0.08);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 1.15rem;
+  }
+  .close:hover { background: rgba(92, 225, 255, 0.18); }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .tile {
+    padding: 16px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .tile .name {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .tile .price {
+    font-size: 1.5rem;
+    font-weight: 750;
+    margin-bottom: 12px;
+    letter-spacing: -0.03em;
+  }
+  .tile .metrics { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .tile .blurb { font-size: 0.78rem; color: var(--muted); line-height: 1.45; }
+  .full { grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+  <article class="card" id="card" tabindex="0" role="button" aria-label="Open enlarged HUD morning prices card">
+    <div class="card-header">
+      <div>
+        <h1 class="title">Morning prices</h1>
+        <p class="subtitle">Thu 24 Sep 2026 · London · HUD glass</p>
+      </div>
+      <span class="badge">HUD</span>
+    </div>
+
+    <div class="col-heads">
+      <span>Asset</span>
+      <span>Daily</span>
+      <span>200-DMA</span>
+    </div>
+
+    <div class="section-label">Equities · early London</div>
+    <div class="row">
+      <div class="asset">
+        <div class="ticker">TSLA</div>
+        <div class="price"><strong>380.12</strong> · open 380.10</div>
+      </div>
+      <div class="pct up">+4.3%</div>
+      <div class="dma">
+        <strong>~396.34</strong>
+        <div><span class="gap down">−4.1% vs avg</span></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="asset">
+        <div class="ticker">SPCX</div>
+        <div class="price"><strong>148.36</strong> · open 153.28</div>
+      </div>
+      <div class="pct down">−2.9%</div>
+      <div class="dma">
+        <strong>~143.16</strong> <span style="font-size:0.68rem;opacity:0.75">(71 sess.)</span>
+        <div><span class="gap up">+3.6% vs avg</span></div>
+      </div>
+    </div>
+    <p class="note">Daily = vs Fri close (TSLA 364.27 · SPCX 152.71). Flat overnight vs Wed close. SPCX SMA thin post-IPO (12 Jun 2026).</p>
+
+    <div class="section-label">Crypto · 5:07am London</div>
+    <div class="row">
+      <div class="asset">
+        <div class="ticker">BTC</div>
+        <div class="price"><strong>$83,903.00</strong></div>
+      </div>
+      <div class="pct down">−0.5%</div>
+      <div class="dma">
+        <strong>$70,756.45</strong>
+        <div><span class="gap up">+18.6% vs avg</span></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="asset">
+        <div class="ticker">ETH</div>
+        <div class="price"><strong>$2,675.20</strong></div>
+      </div>
+      <div class="pct up">+0.0%</div>
+      <div class="dma">
+        <strong>$2,087.05</strong>
+        <div><span class="gap up">+28.2% vs avg</span></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="asset">
+        <div class="ticker">SOL</div>
+        <div class="price"><strong>$114.76</strong></div>
+      </div>
+      <div class="pct up">+0.3%</div>
+      <div class="dma">
+        <strong>$84.24</strong>
+        <div><span class="gap up">+36.2% vs avg</span></div>
+      </div>
+    </div>
+    <p class="note">Crypto daily = vs prior evening check (9:22pm Wed).</p>
+
+    <div class="footer">
+      <span>Coinbase spot · Yahoo Finance SMAs</span>
+      <span class="tap">Tap to enlarge</span>
+    </div>
+  </article>
+
+  <p class="hint">Levels only · not investment advice</p>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-inner" role="dialog" aria-labelledby="modal-title">
+      <div class="modal-top">
+        <div>
+          <h2 id="modal-title">Morning prices · 24 Sep</h2>
+          <p class="subtitle" style="margin-top:6px">HUD glass · daily first · then 200-DMA &amp; gap</p>
+        </div>
+        <button class="close" id="close" aria-label="Close">×</button>
+      </div>
+      <div class="grid">
+        <div class="tile">
+          <div class="name">TSLA</div>
+          <div class="price">380.12</div>
+          <div class="metrics">
+            <span class="pct up">Daily +4.3%</span>
+            <span class="pct down">−4.1% vs DMA</span>
+          </div>
+          <div class="blurb">Open 380.10 · 200-DMA ~396.34. Daily vs Fri close 364.27. Flat overnight vs Wed close.</div>
+        </div>
+        <div class="tile">
+          <div class="name">SPCX</div>
+          <div class="price">148.36</div>
+          <div class="metrics">
+            <span class="pct down">Daily −2.9%</span>
+            <span class="pct up">+3.6% vs SMA</span>
+          </div>
+          <div class="blurb">Open 153.28 · SMA ~143.16 (71 sessions). Daily vs Fri close 152.71. Thin post-IPO.</div>
+        </div>
+        <div class="tile">
+          <div class="name">BTC</div>
+          <div class="price">$83,903.00</div>
+          <div class="metrics">
+            <span class="pct down">Daily −0.5%</span>
+            <span class="pct up">+18.6% vs DMA</span>
+          </div>
+          <div class="blurb">200-DMA $70,756.45. Daily vs prior evening $84,364.09.</div>
+        </div>
+        <div class="tile">
+          <div class="name">ETH</div>
+          <div class="price">$2,675.20</div>
+          <div class="metrics">
+            <span class="pct up">Daily +0.0%</span>
+            <span class="pct up">+28.2% vs DMA</span>
+          </div>
+          <div class="blurb">200-DMA $2,087.05. Daily vs prior evening $2,674.03.</div>
+        </div>
+        <div class="tile full">
+          <div class="name">SOL</div>
+          <div class="price">$114.76</div>
+          <div class="metrics">
+            <span class="pct up">Daily +0.3%</span>
+            <span class="pct up">+36.2% vs DMA</span>
+          </div>
+          <div class="blurb">200-DMA $84.24. Daily vs prior evening $114.39. Sources: Coinbase spot USD; Yahoo Finance SMA200. Levels only — not investment advice.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById('card');
+    const modal = document.getElementById('modal');
+    const closeBtn = document.getElementById('close');
+    function openModal() {
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+    card.addEventListener('click', openModal);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); }
+    });
+    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModal(); });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>
