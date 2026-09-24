@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Morning Prices · Mid sample · 24 Sep 2026</title>
+<style>
+  :root {
+    --bg: #e8e6e1;
+    --card: #f3f1ec;
+    --card-soft: #ebe8e2;
+    --border: rgba(45, 42, 38, 0.12);
+    --text: #2a2723;
+    --muted: #6b6560;
+    --accent: #4a6fa5;
+    --green: #2f7d57;
+    --green-dim: rgba(47, 125, 87, 0.14);
+    --red: #b84a4a;
+    --red-dim: rgba(184, 74, 74, 0.12);
+    --radius: 18px;
+    --shadow: 0 14px 36px rgba(42, 39, 35, 0.12);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 32px 16px;
+    font-family: "SF Pro Display", "Segoe UI", system-ui, -apple-system, sans-serif;
+    background:
+      radial-gradient(900px 500px at 8% 0%, #d5d2cb 0%, transparent 55%),
+      radial-gradient(800px 480px at 100% 12%, #cfd6df 0%, transparent 50%),
+      radial-gradient(700px 400px at 50% 100%, #d8d4cc 0%, transparent 45%),
+      var(--bg);
+    color: var(--text);
+  }
+  .hint {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .card {
+    width: min(520px, 100%);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 26px 24px 20px;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    outline: none;
+  }
+  .card:hover, .card:focus-visible {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 22px 50px rgba(15, 23, 42, 0.12);
+    border-color: rgba(59, 130, 246, 0.35);
+  }
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .title { margin: 0; font-size: 1.2rem; font-weight: 650; letter-spacing: -0.02em; }
+  .subtitle { margin: 5px 0 0; font-size: 0.8rem; color: var(--muted); }
+  .badge {
+    flex-shrink: 0;
+    font-size: 0.68rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 11px;
+    border-radius: 999px;
+    background: rgba(74, 111, 165, 0.12);
+    color: var(--accent);
+    border: 1px solid rgba(74, 111, 165, 0.28);
+  }
+  .col-heads {
+    display: grid;
+    grid-template-columns: minmax(88px, 1.1fr) 78px minmax(120px, 1.3fr);
+    gap: 8px;
+    padding: 0 12px 8px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section { margin-top: 14px; }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(88px, 1.1fr) 78px minmax(120px, 1.3fr);
+    gap: 8px;
+    align-items: center;
+    padding: 12px 12px;
+    border-radius: 14px;
+    background: var(--card-soft);
+    border: 1px solid transparent;
+    margin-bottom: 9px;
+  }
+  .row:hover { border-color: var(--border); background: #e3dfd8; }
+  .asset .ticker { font-weight: 700; font-size: 0.95rem; letter-spacing: 0.02em; }
+  .asset .price { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
+  .asset .price strong { color: var(--text); font-weight: 600; }
+  .pct {
+    font-weight: 700;
+    font-size: 0.86rem;
+    padding: 6px 8px;
+    border-radius: 9px;
+    white-space: nowrap;
+    text-align: center;
+    justify-self: start;
+  }
+  .pct.up { color: var(--green); background: var(--green-dim); }
+  .pct.down { color: var(--red); background: var(--red-dim); }
+  .dma {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  .dma strong { color: var(--text); font-weight: 600; }
+  .dma .gap {
+    display: inline-block;
+    margin-top: 5px;
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 3px 8px;
+    border-radius: 7px;
+  }
+  .dma .gap.up { color: var(--green); background: var(--green-dim); }
+  .dma .gap.down { color: var(--red); background: var(--red-dim); }
+  .note {
+    margin: 4px 2px 0;
+    font-size: 0.7rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .footer {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-size: 0.68rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tap { color: var(--accent); font-weight: 650; }
+
+  .modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    place-items: center;
+    padding: 24px 16px;
+    background: rgba(42, 39, 35, 0.28);
+    backdrop-filter: blur(10px);
+    z-index: 50;
+  }
+  .modal.open { display: grid; }
+  .modal-inner {
+    width: min(780px, 100%);
+    max-height: min(92vh, 920px);
+    overflow: auto;
+    background: #f3f1ec;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.16);
+    padding: 28px 28px 22px;
+    animation: pop 0.22s ease;
+  }
+  @keyframes pop {
+    from { transform: scale(0.94); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .modal-top h2 { margin: 0; font-size: 1.45rem; letter-spacing: -0.03em; }
+  .close {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: #ebe8e2;
+    color: var(--text);
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+  .close:hover { background: #ddd8d0; }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  @media (min-width: 640px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+  }
+  .tile {
+    padding: 18px;
+    border-radius: 16px;
+    background: var(--card-soft);
+    border: 1px solid var(--border);
+  }
+  .tile .name {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .tile .price {
+    font-size: 1.55rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+  .tile .metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .tile .blurb { font-size: 0.8rem; color: var(--muted); line-height: 1.45; }
+  .full { grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+  <article class="card" id="card" tabindex="0" role="button" aria-label="Open enlarged morning prices card">
+    <div class="card-header">
+      <div>
+        <h1 class="title">Morning prices</h1>
+        <p class="subtitle">Thu 24 Sep 2026 · London · mid sample</p>
+      </div>
+      <span class="badge">Mid</span>
+    </div>
+
+    <div class="col-heads">
+      <span>Asset</span>
+      <span>Daily</span>
+      <span>200-DMA</span>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Equities · early London</div>
+      <div class="row">
+        <div class="asset">
+          <div class="ticker">TSLA</div>
+          <div class="price"><strong>380.12</strong> · open 380.10</div>
+        </div>
+        <div class="pct up">+4.3%</div>
+        <div class="dma">
+          <strong>~396.34</strong>
+          <div><span class="gap down">−4.1% vs avg</span></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="asset">
+          <div class="ticker">SPCX</div>
+          <div class="price"><strong>148.36</strong> · open 153.28</div>
+        </div>
+        <div class="pct down">−2.9%</div>
+        <div class="dma">
+          <strong>~143.16</strong> <span style="font-size:0.7rem">(71 sess.)</span>
+          <div><span class="gap up">+3.6% vs avg</span></div>
+        </div>
+      </div>
+      <p class="note">Daily = vs Fri close (TSLA 364.27 · SPCX 152.71). Flat overnight vs Wed close. SPCX SMA thin post-IPO (12 Jun 2026).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Crypto · 5:07am London</div>
+      <div class="row">
+        <div class="asset">
+          <div class="ticker">BTC</div>
+          <div class="price"><strong>$83,903.00</strong></div>
+        </div>
+        <div class="pct down">−0.5%</div>
+        <div class="dma">
+          <strong>$70,756.45</strong>
+          <div><span class="gap up">+18.6% vs avg</span></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="asset">
+          <div class="ticker">ETH</div>
+          <div class="price"><strong>$2,675.20</strong></div>
+        </div>
+        <div class="pct up">+0.0%</div>
+        <div class="dma">
+          <strong>$2,087.05</strong>
+          <div><span class="gap up">+28.2% vs avg</span></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="asset">
+          <div class="ticker">SOL</div>
+          <div class="price"><strong>$114.76</strong></div>
+        </div>
+        <div class="pct up">+0.3%</div>
+        <div class="dma">
+          <strong>$84.24</strong>
+          <div><span class="gap up">+36.2% vs avg</span></div>
+        </div>
+      </div>
+      <p class="note">Crypto daily = vs prior evening check (9:22pm Wed).</p>
+    </div>
+
+    <div class="footer">
+      <span>Coinbase spot · Yahoo Finance SMAs</span>
+      <span class="tap">Tap to enlarge</span>
+    </div>
+  </article>
+
+  <p class="hint">Levels only · not investment advice · mid sample</p>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-inner" role="dialog" aria-labelledby="modal-title">
+      <div class="modal-top">
+        <div>
+          <h2 id="modal-title">Morning prices · 24 Sep</h2>
+          <p class="subtitle" style="margin-top:6px">Mid sample · daily move first · then 200-day average &amp; gap</p>
+        </div>
+        <button class="close" id="close" aria-label="Close">×</button>
+      </div>
+      <div class="grid">
+        <div class="tile">
+          <div class="name">TSLA</div>
+          <div class="price">380.12</div>
+          <div class="metrics">
+            <span class="pct up">Daily +4.3%</span>
+            <span class="pct down">−4.1% vs DMA</span>
+          </div>
+          <div class="blurb">Open 380.10 · 200-DMA ~396.34. Daily vs Fri close 364.27. Flat overnight vs Wed close.</div>
+        </div>
+        <div class="tile">
+          <div class="name">SPCX</div>
+          <div class="price">148.36</div>
+          <div class="metrics">
+            <span class="pct down">Daily −2.9%</span>
+            <span class="pct up">+3.6% vs SMA</span>
+          </div>
+          <div class="blurb">Open 153.28 · SMA ~143.16 (71 sessions). Daily vs Fri close 152.71. Thin post-IPO.</div>
+        </div>
+        <div class="tile">
+          <div class="name">BTC</div>
+          <div class="price">$83,903.00</div>
+          <div class="metrics">
+            <span class="pct down">Daily −0.5%</span>
+            <span class="pct up">+18.6% vs DMA</span>
+          </div>
+          <div class="blurb">200-DMA $70,756.45. Daily vs prior evening $84,364.09.</div>
+        </div>
+        <div class="tile">
+          <div class="name">ETH</div>
+          <div class="price">$2,675.20</div>
+          <div class="metrics">
+            <span class="pct up">Daily +0.0%</span>
+            <span class="pct up">+28.2% vs DMA</span>
+          </div>
+          <div class="blurb">200-DMA $2,087.05. Daily vs prior evening $2,674.03.</div>
+        </div>
+        <div class="tile full">
+          <div class="name">SOL</div>
+          <div class="price">$114.76</div>
+          <div class="metrics">
+            <span class="pct up">Daily +0.3%</span>
+            <span class="pct up">+36.2% vs DMA</span>
+          </div>
+          <div class="blurb">200-DMA $84.24. Daily vs prior evening $114.39. Sources: Coinbase spot USD; Yahoo Finance SMA200. Levels only — not investment advice.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById('card');
+    const modal = document.getElementById('modal');
+    const closeBtn = document.getElementById('close');
+    function openModal() {
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+    card.addEventListener('click', openModal);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); }
+    });
+    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModal(); });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>

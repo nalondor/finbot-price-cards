@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Morning Prices · Terminal grey · 24 Sep 2026</title>
+<style>
+  :root {
+    --bg: #121417;
+    --panel: #1a1d22;
+    --line: #2c3138;
+    --text: #e2e4e8;
+    --muted: #8b919a;
+    --dim: #5c636e;
+    --green: #7a9e88;
+    --green-dim: rgba(122, 158, 136, 0.16);
+    --red: #a87878;
+    --red-dim: rgba(168, 120, 120, 0.16);
+    --accent: #c5c9d0;
+    --mono: "SF Mono", "JetBrains Mono", "Fira Code", ui-monospace, Menlo, Consolas, monospace;
+    --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 28px 14px;
+    font-family: var(--sans);
+    background:
+      linear-gradient(180deg, #16191d 0%, var(--bg) 45%, #0e1013 100%);
+    color: var(--text);
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 3px
+      );
+    opacity: 0.35;
+  }
+  .hint {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    z-index: 1;
+  }
+  .card {
+    position: relative;
+    z-index: 1;
+    width: min(540px, 100%);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    box-shadow: 0 0 0 1px rgba(197, 201, 208, 0.06), 0 24px 60px rgba(0,0,0,0.55);
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover, .card:focus-visible {
+    border-color: rgba(197, 201, 208, 0.4);
+    box-shadow: 0 0 0 1px rgba(197, 201, 208, 0.14), 0 28px 70px rgba(0,0,0,0.65);
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    background: #15181c;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  .topbar .status {
+    color: var(--accent);
+  }
+  .topbar .status::before {
+    content: "●";
+    margin-right: 6px;
+    font-size: 8px;
+    vertical-align: 1px;
+  }
+  .header {
+    padding: 18px 16px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .title {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .subtitle {
+    margin: 8px 0 0;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .col-heads {
+    display: grid;
+    grid-template-columns: minmax(100px, 1.15fr) 88px minmax(130px, 1.35fr);
+    gap: 0;
+    padding: 8px 16px;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    border-bottom: 1px solid var(--line);
+  }
+  .section-label {
+    padding: 10px 16px 6px;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: #15181c;
+    border-bottom: 1px solid var(--line);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(100px, 1.15fr) 88px minmax(130px, 1.35fr);
+    gap: 0;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .row:hover { background: rgba(197, 201, 208, 0.04); }
+  .asset .ticker {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+  }
+  .asset .price {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .asset .price strong { color: var(--text); font-weight: 600; }
+  .pct {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.02em;
+    padding: 5px 8px;
+    border: 1px solid transparent;
+    justify-self: start;
+  }
+  .pct.up { color: var(--green); background: var(--green-dim); border-color: rgba(122, 158, 136, 0.32); }
+  .pct.down { color: var(--red); background: var(--red-dim); border-color: rgba(168, 120, 120, 0.32); }
+  .dma {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .dma strong { color: var(--text); font-weight: 600; }
+  .dma .gap {
+    display: inline-block;
+    margin-top: 5px;
+    font-weight: 700;
+    font-size: 0.72rem;
+    padding: 2px 7px;
+    border: 1px solid transparent;
+  }
+  .dma .gap.up { color: var(--green); background: var(--green-dim); border-color: rgba(122, 158, 136, 0.32); }
+  .dma .gap.down { color: var(--red); background: var(--red-dim); border-color: rgba(168, 120, 120, 0.32); }
+  .note {
+    margin: 0;
+    padding: 8px 16px 12px;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--dim);
+    line-height: 1.5;
+    border-bottom: 1px solid var(--line);
+  }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--dim);
+    background: #15181c;
+  }
+  .tap { color: var(--accent); }
+
+  .modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    place-items: center;
+    padding: 20px 14px;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(6px);
+    z-index: 50;
+  }
+  .modal.open { display: grid; }
+  .modal-inner {
+    width: min(800px, 100%);
+    max-height: min(92vh, 920px);
+    overflow: auto;
+    background: var(--panel);
+    border: 1px solid rgba(197, 201, 208, 0.3);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    animation: pop 0.18s ease;
+  }
+  @keyframes pop {
+    from { transform: translateY(8px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid var(--line);
+    background: #15181c;
+  }
+  .modal-top h2 {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .modal-top .subtitle {
+    margin-top: 6px;
+  }
+  .close {
+    appearance: none;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--text);
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 1.1rem;
+  }
+  .close:hover { border-color: var(--accent); color: var(--accent); }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  @media (min-width: 640px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+  }
+  .tile {
+    padding: 16px;
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
+  .tile .name {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .tile .price {
+    font-family: var(--mono);
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .tile .metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .tile .blurb {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .full { grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+  <article class="card" id="card" tabindex="0" role="button" aria-label="Open enlarged morning prices terminal">
+    <div class="topbar">
+      <span>FINBOT // GREY TERMINAL</span>
+      <span class="status">LIVE</span>
+    </div>
+    <div class="header">
+      <h1 class="title">Morning prices</h1>
+      <p class="subtitle">2026-09-24 · Europe/London · grey terminal</p>
+    </div>
+
+    <div class="col-heads">
+      <span>Asset</span>
+      <span>Daily</span>
+      <span>200-DMA</span>
+    </div>
+
+    <div class="section-label">Equities · early London</div>
+    <div class="row">
+      <div class="asset">
+        <div class="ticker">TSLA</div>
+        <div class="price"><strong>380.12</strong> · open 380.10</div>
+      </div>
+      <div class="pct up">+4.3%</div>
+      <div class="dma">
+        <strong>~396.34</strong>
+        <div><span class="gap down">−4.1% vs avg</span></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="asset">
+        <div class="ticker">SPCX</div>
+        <div class="price"><strong>148.36</strong> · open 153.28</div>
+      </div>
+      <div class="pct down">−2.9%</div>
+      <div class="dma">
+        <strong>~143.16</strong> <span style="font-size:0.65rem;color:var(--dim)">(71 sess.)</span>
+        <div><span class="gap up">+3.6% vs avg</span></div>
+      </div>
+    </div>
+    <p class="note">Daily = vs Fri close (TSLA 364.27 · SPCX 152.71). Flat overnight vs Wed close. SPCX SMA thin post-IPO (12 Jun 2026).</p>
+
+    <div class="section-label">Crypto · 05:07 London</div>
+    <div class="row">
+      <div class="asset">
+        <div class="ticker">BTC</div>
+        <div class="price"><strong>$83,903.00</strong></div>
+      </div>
+      <div class="pct down">−0.5%</div>
+      <div class="dma">
+        <strong>$70,756.45</strong>
+        <div><span class="gap up">+18.6% vs avg</span></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="asset">
+        <div class="ticker">ETH</div>
+        <div class="price"><strong>$2,675.20</strong></div>
+      </div>
+      <div class="pct up">+0.0%</div>
+      <div class="dma">
+        <strong>$2,087.05</strong>
+        <div><span class="gap up">+28.2% vs avg</span></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="asset">
+        <div class="ticker">SOL</div>
+        <div class="price"><strong>$114.76</strong></div>
+      </div>
+      <div class="pct up">+0.3%</div>
+      <div class="dma">
+        <strong>$84.24</strong>
+        <div><span class="gap up">+36.2% vs avg</span></div>
+      </div>
+    </div>
+    <p class="note">Crypto daily = vs prior evening check (21:22 Wed).</p>
+
+    <div class="footer">
+      <span>Coinbase spot · Yahoo Finance SMAs</span>
+      <span class="tap">Click to expand ▸</span>
+    </div>
+  </article>
+
+  <p class="hint">Levels only · not investment advice</p>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-inner" role="dialog" aria-labelledby="modal-title">
+      <div class="modal-top">
+        <div>
+          <h2 id="modal-title">Morning prices · 24 Sep</h2>
+          <p class="subtitle">Grey terminal view · daily first · then 200-DMA &amp; gap</p>
+        </div>
+        <button class="close" id="close" aria-label="Close">×</button>
+      </div>
+      <div class="grid">
+        <div class="tile">
+          <div class="name">TSLA</div>
+          <div class="price">380.12</div>
+          <div class="metrics">
+            <span class="pct up">Daily +4.3%</span>
+            <span class="pct down">−4.1% vs DMA</span>
+          </div>
+          <div class="blurb">Open 380.10 · 200-DMA ~396.34. Daily vs Fri close 364.27. Flat overnight vs Wed close.</div>
+        </div>
+        <div class="tile">
+          <div class="name">SPCX</div>
+          <div class="price">148.36</div>
+          <div class="metrics">
+            <span class="pct down">Daily −2.9%</span>
+            <span class="pct up">+3.6% vs SMA</span>
+          </div>
+          <div class="blurb">Open 153.28 · SMA ~143.16 (71 sessions). Daily vs Fri close 152.71. Thin post-IPO.</div>
+        </div>
+        <div class="tile">
+          <div class="name">BTC</div>
+          <div class="price">$83,903.00</div>
+          <div class="metrics">
+            <span class="pct down">Daily −0.5%</span>
+            <span class="pct up">+18.6% vs DMA</span>
+          </div>
+          <div class="blurb">200-DMA $70,756.45. Daily vs prior evening $84,364.09.</div>
+        </div>
+        <div class="tile">
+          <div class="name">ETH</div>
+          <div class="price">$2,675.20</div>
+          <div class="metrics">
+            <span class="pct up">Daily +0.0%</span>
+            <span class="pct up">+28.2% vs DMA</span>
+          </div>
+          <div class="blurb">200-DMA $2,087.05. Daily vs prior evening $2,674.03.</div>
+        </div>
+        <div class="tile full">
+          <div class="name">SOL</div>
+          <div class="price">$114.76</div>
+          <div class="metrics">
+            <span class="pct up">Daily +0.3%</span>
+            <span class="pct up">+36.2% vs DMA</span>
+          </div>
+          <div class="blurb">200-DMA $84.24. Daily vs prior evening $114.39. Sources: Coinbase spot USD; Yahoo Finance SMA200. Levels only — not investment advice.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById('card');
+    const modal = document.getElementById('modal');
+    const closeBtn = document.getElementById('close');
+    function openModal() {
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+    card.addEventListener('click', openModal);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); }
+    });
+    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModal(); });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>
