@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Polymarket Perps — summary</title>
+<style>
+  :root {
+    --text: #f2f6ff;
+    --muted: #9aa8c7;
+    --green: #39d98a;
+    --cyan: #5ce1ff;
+    --glass: rgba(18, 24, 48, 0.55);
+    --glass-edge: rgba(92, 225, 255, 0.45);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 28px 14px;
+    font-family: "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(900px 520px at 15% 10%, #1a2b6b 0%, transparent 55%),
+      radial-gradient(800px 480px at 90% 20%, #0d4a5c 0%, transparent 50%),
+      radial-gradient(700px 500px at 50% 100%, #1a1040 0%, transparent 55%),
+      #070b18;
+  }
+  .card {
+    width: min(640px, 100%);
+    padding: 22px 22px 18px;
+    border-radius: 22px;
+    background: var(--glass);
+    border: 1px solid var(--glass-edge);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04) inset,
+      0 0 40px rgba(92, 225, 255, 0.12),
+      0 24px 60px rgba(0,0,0,0.45);
+    backdrop-filter: blur(18px) saturate(140%);
+  }
+  .head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:14px; }
+  h1 { margin:0; font-size:1.35rem; letter-spacing:-0.02em; }
+  .sub { margin:6px 0 0; font-size:0.78rem; color:var(--muted); }
+  .badge {
+    font-size:0.65rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+    padding:6px 10px; border-radius:999px; color:var(--cyan);
+    border:1px solid rgba(92,225,255,0.45); background:rgba(92,225,255,0.1);
+  }
+  .section { margin:14px 0 8px; font-size:0.7rem; font-weight:650; letter-spacing:0.1em; text-transform:uppercase; color:var(--cyan); display:flex; align-items:center; gap:8px; }
+  .section::after { content:""; flex:1; height:1px; background:linear-gradient(90deg, rgba(92,225,255,0.45), transparent); }
+  .tile {
+    padding:12px 14px; margin-bottom:8px; border-radius:14px;
+    background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06);
+    font-size:0.86rem; line-height:1.45;
+  }
+  .ex {
+    border-color: rgba(57,217,138,0.35);
+    background: rgba(57,217,138,0.08);
+  }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .pill { display:inline-block; margin:2px 4px 2px 0; padding:3px 8px; border-radius:7px; font-size:0.72rem; font-weight:700;
+    color:var(--cyan); background:rgba(92,225,255,0.1); border:1px solid rgba(92,225,255,0.3); }
+  .foot { margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.08);
+    font-size:0.68rem; color:var(--muted); display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+  a { color:var(--cyan); text-decoration:none; font-weight:650; }
+  .muted { color:var(--muted); }
+</style>
+</head>
+<body>
+  <article class="card">
+    <div class="head">
+      <div>
+        <h1>Polymarket Perps — quick card</h1>
+        <p class="sub">For someone new · Fri 25 Sep 2026 · not advice</p>
+      </div>
+      <span class="badge">PERPS</span>
+    </div>
+    <div class="section">What is a perp?</div>
+    <div class="tile">
+      A <strong>perpetual future</strong>: bet the price of an asset goes up (long) or down (short) with <strong>leverage</strong>, and <strong>no expiry date</strong>. You keep the position until you close it or get liquidated. A periodic <strong>funding</strong> payment between longs and shorts keeps the contract near the real (spot/index) price.
+    </div>
+    <div class="section">£10 long example</div>
+    <div class="tile ex">
+      You put up <strong>£10</strong> margin and pick <strong>10×</strong> leverage → you control about <strong>£100</strong> of exposure.<br/>
+      If the asset rises <strong>5%</strong>, your position gains ~£5 → roughly <strong>+50%</strong> on your £10 (before fees/funding).<br/>
+      If it falls <strong>5%</strong>, you lose ~£5 (−50% on margin). A big enough drop can <strong>liquidate</strong> the position and wipe the margin.
+      <div class="muted" style="margin-top:6px">UI risk buttons <strong>25% / 50% / 75%</strong> = how much of your available balance to use as margin for this trade (not the leverage multiplier).</div>
+    </div>
+    <div class="section">Leverage &amp; margin</div>
+    <div class="grid">
+      <div class="tile"><strong>Leverage</strong><br/><span class="muted">Borrowed size vs your margin. Higher = bigger gains and losses.</span></div>
+      <div class="tile"><strong>Margin</strong><br/><span class="muted">Your collateral. Isolated = one position; cross = shared.</span></div>
+    </div>
+    <div class="tile">
+      Caps: ~<strong>20×</strong> major crypto · ~<strong>10×</strong> most equities/RWAs. Collateral is <strong>pUSD</strong> on <strong>Polygon</strong>.
+    </div>
+    <div class="section">What you can trade</div>
+    <div class="tile">
+      <span class="pill">Crypto</span><span class="pill">Stocks</span><span class="pill">Indices</span><span class="pill">Commodities</span>
+      <div class="muted" style="margin-top:6px">BTC, ETH, SOL · equities · USA500/US100 · Gold, Silver, oil. Check the live grid.</div>
+    </div>
+    <div class="section">Funding &amp; access</div>
+    <div class="tile">
+      <strong>Funding:</strong> when the perp is rich vs spot, longs usually pay shorts (and vice versa). Anchors the price; protocol takes no cut of funding.<br/>
+      <strong>Access:</strong> early access often needs a <strong>referral code</strong>. URL: <a href="https://polymarket.com/perps">polymarket.com/perps</a>
+    </div>
+    <div class="section">Vs Binance / Bybit style</div>
+    <div class="tile">
+      <strong>Same core:</strong> order book · long/short · leverage · funding · mark price · liquidation.<br/>
+      <strong>Different:</strong> hybrid DeFi (off-chain match, Polygon settle) · lower max leverage · stocks/commodities too · same balance as prediction markets.
+    </div>
+    <div class="foot">
+      <span>PRODUCT FACTS ONLY · NOT INVESTMENT ADVICE</span>
+      <a href="https://polymarket.com/perps">Open Perps →</a>
+    </div>
+  </article>
+</body>
+</html>
