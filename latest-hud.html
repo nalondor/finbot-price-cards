@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Markets · Glass HUD · 25 Sep 2026</title>
+<title>Markets Prices · HUD · 25 Sep 2026</title>
 <style>
   :root {
     --text: #f2f6ff;
@@ -60,7 +60,7 @@
   .card {
     position: relative;
     z-index: 2;
-    width: min(560px, 100%);
+    width: min(540px, 100%);
     padding: 22px 20px 16px;
     border-radius: 22px;
     background: var(--glass);
@@ -103,7 +103,7 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 12px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
   .title {
     margin: 0;
@@ -127,7 +127,6 @@
     border: 1px solid rgba(92, 225, 255, 0.45);
     background: rgba(92, 225, 255, 0.1);
     box-shadow: 0 0 16px rgba(92, 225, 255, 0.2);
-    white-space: nowrap;
   }
   .col-heads {
     display: grid;
@@ -229,8 +228,8 @@
   }
   .modal.open { display: grid; }
   .modal-inner {
-    width: min(860px, 100%);
-    max-height: min(92vh, 960px);
+    width: min(800px, 100%);
+    max-height: min(92vh, 920px);
     overflow: auto;
     border-radius: 22px;
     background: rgba(14, 20, 42, 0.88);
@@ -283,7 +282,7 @@
     margin-bottom: 6px;
   }
   .tile .price {
-    font-size: 1.45rem;
+    font-size: 1.5rem;
     font-weight: 750;
     margin-bottom: 12px;
     letter-spacing: -0.03em;
@@ -291,21 +290,14 @@
   .tile .metrics { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
   .tile .blurb { font-size: 0.78rem; color: var(--muted); line-height: 1.45; }
   .full { grid-column: 1 / -1; }
-  .modal-section {
-    margin: 8px 0 4px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--cyan);
-  }
 </style>
 </head>
+
 <body>
   <article class="card" id="card" tabindex="0" role="button" aria-label="Open enlarged markets HUD card">
     <div class="card-header">
       <div>
-        <h1 class="title">Markets · combined</h1>
+        <h1 class="title">Markets prices</h1>
         <p class="subtitle">Fri 25 Sep 2026 · crypto evening + US close · HUD glass</p>
       </div>
       <span class="badge">HUD</span>
@@ -376,10 +368,10 @@
         <div><span class="gap up">+3.8% vs avg</span></div>
       </div>
     </div>
-    <p class="note">Equity daily = vs Thu close. SPCX SMA thin post-IPO (12 Jun 2026). Yahoo Finance SMA200.</p>
+    <p class="note">Soft day for TSLA vs Thu close 377.94; SPCX finished slightly green vs Thu 148.03. Daily = vs Thu close. SPCX SMA thin post-IPO (12 Jun 2026).</p>
 
     <div class="footer">
-      <span>Coinbase · Yahoo · glass HUD</span>
+      <span>Coinbase · Yahoo · SMA200</span>
       <span class="tap">Tap to enlarge</span>
     </div>
   </article>
@@ -391,12 +383,10 @@
       <div class="modal-top">
         <div>
           <h2 id="modal-title">Markets · 25 Sep 2026</h2>
-          <p class="subtitle" style="margin-top:6px">Combined glass HUD · crypto evening + equities US close</p>
+          <p class="subtitle" style="margin-top:6px">HUD glass · crypto evening + equities US close</p>
         </div>
         <button class="close" id="close" aria-label="Close">×</button>
       </div>
-
-      <div class="modal-section">Crypto</div>
       <div class="grid">
         <div class="tile">
           <div class="name">BTC</div>
@@ -405,7 +395,7 @@
             <span class="pct up">Daily +0.7%</span>
             <span class="pct up">+18.3% vs DMA</span>
           </div>
-          <div class="blurb">200-DMA $70,928.61. Daily vs afternoon check (3:09pm Fri).</div>
+          <div class="blurb">200-DMA $70,928.61. Daily vs afternoon check (3:09pm Fri). Coinbase spot.</div>
         </div>
         <div class="tile">
           <div class="name">ETH</div>
@@ -416,7 +406,7 @@
           </div>
           <div class="blurb">200-DMA $2,094.34. Daily vs afternoon check (3:09pm Fri).</div>
         </div>
-        <div class="tile full">
+        <div class="tile">
           <div class="name">SOL</div>
           <div class="price">$121.69</div>
           <div class="metrics">
@@ -425,10 +415,6 @@
           </div>
           <div class="blurb">200-DMA $84.60. Coinbase spot USD · Yahoo SMA200.</div>
         </div>
-      </div>
-
-      <div class="modal-section" style="margin-top:16px">Equities</div>
-      <div class="grid">
         <div class="tile">
           <div class="name">TSLA</div>
           <div class="price">372.11</div>
@@ -449,7 +435,7 @@
         </div>
         <div class="tile full">
           <div class="name">Sources</div>
-          <div class="blurb">Crypto: Coinbase spot USD + Yahoo SMA200. Equities: Yahoo regular-session quotes and 200-DMA. Levels only — not investment advice.</div>
+          <div class="blurb">Crypto: Coinbase spot USD + Yahoo SMA200. Equities: Yahoo regular-session quotes and 200-DMA. SPCX history short since IPO 12 Jun 2026. Levels only — not investment advice.</div>
         </div>
       </div>
     </div>
@@ -477,3 +463,4 @@
   </script>
 </body>
 </html>
+
