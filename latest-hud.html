@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Morning Prices · HUD · 28 Sep 2026</title>
+<title>Equities Prices · HUD · 28 Sep 2026 · early London</title>
 <style>
   :root {
     --text: #f2f6ff;
@@ -204,6 +204,7 @@
     color: var(--muted);
   }
   .tap { color: var(--cyan); font-weight: 650; }
+
   .modal {
     position: fixed;
     inset: 0;
@@ -281,11 +282,11 @@
 </style>
 </head>
 <body>
-  <article class="card" id="card" tabindex="0" role="button" aria-label="Open enlarged crypto HUD card">
+  <article class="card" id="card" tabindex="0" role="button" aria-label="Open enlarged equities HUD card">
     <div class="card-header">
       <div>
-        <h1 class="title">Morning Prices</h1>
-        <p class="subtitle">Mon 28 Sep 2026 · London · HUD glass</p>
+        <h1 class="title">Equities prices</h1>
+        <p class="subtitle">Mon 28 Sep 2026 · early London · HUD glass</p>
       </div>
       <span class="badge">HUD</span>
     </div>
@@ -296,44 +297,33 @@
       <span>200-DMA</span>
     </div>
 
-    <div class="section-label">Crypto · 5:06am London</div>
+    <div class="section-label">Equities · US overnight (Fri close)</div>
     <div class="row">
       <div class="asset">
-        <div class="ticker">BTC</div>
-        <div class="price"><strong>$83,227.93</strong></div>
+        <div class="ticker">TSLA</div>
+        <div class="price"><strong>372.11</strong> · open 384.90</div>
       </div>
-      <div class="pct down">-1.3%</div>
+      <div class="pct down">−1.5%</div>
       <div class="dma">
-        <strong>$71,066.58</strong>
-        <div><span class="gap up">+17.1% vs avg</span></div>
+        <strong>~395.62</strong>
+        <div><span class="gap down">−5.9% vs avg</span></div>
       </div>
     </div>
     <div class="row">
       <div class="asset">
-        <div class="ticker">ETH</div>
-        <div class="price"><strong>$2,646.64</strong></div>
+        <div class="ticker">SPCX</div>
+        <div class="price"><strong>148.68</strong> · open 148.38</div>
       </div>
-      <div class="pct down">-1.7%</div>
+      <div class="pct up">+0.4%</div>
       <div class="dma">
-        <strong>$2,100.61</strong>
-        <div><span class="gap up">+26.0% vs avg</span></div>
+        <strong>~143.30</strong> <span style="font-size:0.68rem;opacity:0.75">(73 sess.)</span>
+        <div><span class="gap up">+3.8% vs avg</span></div>
       </div>
     </div>
-    <div class="row">
-      <div class="asset">
-        <div class="ticker">SOL</div>
-        <div class="price"><strong>$119.23</strong></div>
-      </div>
-      <div class="pct down">-0.8%</div>
-      <div class="dma">
-        <strong>$84.95</strong>
-        <div><span class="gap up">+40.4% vs avg</span></div>
-      </div>
-    </div>
-    <p class="note">Crypto daily = vs Coinbase 24h open. Coinbase spot USD · Yahoo SMA200.</p>
+    <p class="note">Flat overnight vs Fri close 372.11 / 148.68. Daily = vs Thu close (TSLA 377.94 · SPCX 148.03). Weekend → Mon morning London; US market not open yet. SPCX SMA thin post-IPO (12 Jun 2026).</p>
 
     <div class="footer">
-      <span>Coinbase spot · Yahoo SMA200</span>
+      <span>Yahoo Finance · SMA200</span>
       <span class="tap">Tap to enlarge</span>
     </div>
   </article>
@@ -342,38 +332,33 @@
     <div class="modal-inner" role="dialog" aria-labelledby="modal-title">
       <div class="modal-top">
         <div>
-          <h2 id="modal-title">Morning Prices · 28 Sep 2026</h2>
+          <h2 id="modal-title">Equities · 28 Sep 2026 · early London</h2>
           <p class="subtitle" style="margin-top:6px">HUD glass · daily first · then 200-DMA &amp; gap</p>
         </div>
         <button class="close" id="close" aria-label="Close">×</button>
       </div>
       <div class="grid">
         <div class="tile">
-          <div class="name">BTC</div>
-          <div class="price">$83,227.93</div>
+          <div class="name">TSLA</div>
+          <div class="price">372.11</div>
           <div class="metrics">
-            <span class="pct down">Daily -1.3%</span>
-            <span class="pct up">+17.1% vs DMA</span>
+            <span class="pct down">Daily −1.5%</span>
+            <span class="pct down">−5.9% vs DMA</span>
           </div>
-          <div class="blurb">200-DMA $71,066.58. Daily vs Coinbase 24h open $84,316.80.</div>
+          <div class="blurb">Open 384.90 · 200-DMA ~395.62. Flat overnight vs Fri close 372.11. Daily vs Thu close 377.94. US market not open yet.</div>
         </div>
         <div class="tile">
-          <div class="name">ETH</div>
-          <div class="price">$2,646.64</div>
+          <div class="name">SPCX</div>
+          <div class="price">148.68</div>
           <div class="metrics">
-            <span class="pct down">Daily -1.7%</span>
-            <span class="pct up">+26.0% vs DMA</span>
+            <span class="pct up">Daily +0.4%</span>
+            <span class="pct up">+3.8% vs SMA</span>
           </div>
-          <div class="blurb">200-DMA $2,100.61. Daily vs Coinbase 24h open $2,691.60.</div>
+          <div class="blurb">Open 148.38 · SMA ~143.30 (73 sessions). Flat overnight vs Fri close 148.68. Daily vs Thu close 148.03. Thin post-IPO.</div>
         </div>
         <div class="tile full">
-          <div class="name">SOL</div>
-          <div class="price">$119.23</div>
-          <div class="metrics">
-            <span class="pct down">Daily -0.8%</span>
-            <span class="pct up">+40.4% vs DMA</span>
-          </div>
-          <div class="blurb">200-DMA $84.95. Daily vs Coinbase 24h open $120.14. Sources: Coinbase spot USD; Yahoo SMA200.</div>
+          <div class="name">Sources</div>
+          <div class="blurb">Yahoo Finance last regular-session quotes (Fri 25 Sep close) and 200-DMA (daily closes). SPCX history short since IPO 12 Jun 2026. Early London fire — US overnight / weekend.</div>
         </div>
       </div>
     </div>
