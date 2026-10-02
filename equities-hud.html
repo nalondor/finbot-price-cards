@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Equities Prices · HUD · 2 Oct 2026 · afternoon</title>
+<title>Equities Prices · HUD · 2 Oct 2026 · evening</title>
 <style>
   :root {
     --text: #f2f6ff;
@@ -284,11 +284,12 @@
 
 <body>
   
+
   <article class="card" id="card" tabindex="0" role="button" aria-label="Open enlarged equities HUD card">
     <div class="card-header">
       <div>
         <h1 class="title">Equities prices</h1>
-        <p class="subtitle">Fri 2 Oct 2026 · ~3:17pm London · US mid-session · HUD glass</p>
+        <p class="subtitle">Fri 2 Oct 2026 · ~9:07pm London · US close · HUD glass</p>
       </div>
       <span class="badge">HUD</span>
     </div>
@@ -297,30 +298,30 @@
       <span>Daily</span>
       <span>200-DMA</span>
     </div>
-    <div class="section-label">Equities · US mid-session (live)</div>
+    <div class="section-label">Equities · US regular close</div>
     <div class="row">
       <div class="asset">
         <div class="ticker">TSLA</div>
-        <div class="price"><strong>372.93</strong> · open 360.08</div>
+        <div class="price"><strong>370.59</strong> · open 360.08</div>
       </div>
-      <div class="pct up">+5.3%</div>
+      <div class="pct up">+4.7%</div>
       <div class="dma">
-        <strong>~393.71</strong>
-        <div><span class="gap down">−5.3% vs avg</span></div>
+        <strong>~393.18</strong>
+        <div><span class="gap down">−5.7% vs avg</span></div>
       </div>
     </div>
     <div class="row">
       <div class="asset">
         <div class="ticker">SPCX</div>
-        <div class="price"><strong>157.25</strong> · open 149.55</div>
+        <div class="price"><strong>158.96</strong> · open 149.55</div>
       </div>
-      <div class="pct up">+6.2%</div>
+      <div class="pct up">+7.4%</div>
       <div class="dma">
-        <strong>~143.57</strong> <span style="font-size:0.68rem;opacity:0.75">(77 sess.)</span> <span style="font-size:0.68rem;opacity:0.75">(77 sess.)</span>
-        <div><span class="gap up">+9.5% vs avg</span></div>
+        <strong>~143.77</strong> <span style="font-size:0.68rem;opacity:0.75">(78 sess.)</span>
+        <div><span class="gap up">+10.6% vs avg</span></div>
       </div>
     </div>
-    <p class="note">Live mid-US session ~10:17 ET. Daily vs Thu close 354.11 / 148.07. SPCX SMA thin post-IPO (77 sess. since 12 Jun 2026).</p>
+    <p class="note">US regular close (POST). Daily vs Thu close 354.11 / 148.07. SPCX SMA thin post-IPO (78 sess. since 12 Jun 2026).</p>
     <div class="footer">
       <span>Yahoo · SMA200</span>
       <span class="tap">Tap to enlarge</span>
@@ -332,32 +333,33 @@
       <div class="modal-top">
         <div>
           <h2 id="modal-title">Equities · 2 Oct 2026</h2>
-          <p class="subtitle" style="margin-top:6px">HUD glass · US mid-session · live ~10:17 ET</p>
+          <p class="subtitle" style="margin-top:6px">HUD glass · US regular close · POST</p>
         </div>
         <button class="close" id="close" aria-label="Close">×</button>
       </div>
       <div class="grid">
         <div class="tile">
           <div class="name">TSLA</div>
-          <div class="price">372.93</div>
+          <div class="price">370.59</div>
           <div class="metrics">
-            <span class="pct up">Daily +5.3%</span>
-            <span class="pct down">−5.3% vs DMA</span>
+            <span class="pct up">Daily +4.7%</span>
+            <span class="pct down">−5.7% vs DMA</span>
           </div>
-          <div class="blurb">Open 360.08 · 200-DMA ~393.71. Live mid-US. Daily vs Thu close 354.11.</div>
+          <div class="blurb">Open 360.08 · 200-DMA ~393.18. US close. Daily vs Thu close 354.11.</div>
         </div>
         <div class="tile">
           <div class="name">SPCX</div>
-          <div class="price">157.25</div>
+          <div class="price">158.96</div>
           <div class="metrics">
-            <span class="pct up">Daily +6.2%</span>
-            <span class="pct up">+9.5% vs SMA</span>
+            <span class="pct up">Daily +7.4%</span>
+            <span class="pct up">+10.6% vs SMA</span>
           </div>
-          <div class="blurb">Open 149.55 · SMA ~143.57 (77 sessions). Live mid-US. Daily vs Thu 148.07. Thin post-IPO.</div>
+          <div class="blurb">Open 149.55 · SMA ~143.77 (78 sessions). US close. Daily vs Thu 148.07. Thin post-IPO.</div>
         </div>
       </div>
     </div>
   </div>
+
 
   <script>
     const card = document.getElementById('card');
