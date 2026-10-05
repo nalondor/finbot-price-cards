@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Economics · HUD · 5 Oct 2026 · evening</title>
+<style>
+  :root {
+    --text: #f2f6ff;
+    --muted: #9aa8c7;
+    --green: #39d98a;
+    --green-dim: rgba(57, 217, 138, 0.18);
+    --red: #ff6b7a;
+    --red-dim: rgba(255, 107, 122, 0.18);
+    --cyan: #5ce1ff;
+    --glass: rgba(18, 24, 48, 0.55);
+    --glass-edge: rgba(92, 225, 255, 0.45);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 28px 14px;
+    font-family: "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(900px 520px at 15% 10%, #1a2b6b 0%, transparent 55%),
+      radial-gradient(800px 480px at 90% 20%, #0d4a5c 0%, transparent 50%),
+      radial-gradient(700px 500px at 50% 100%, #1a1040 0%, transparent 55%),
+      #070b18;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -20%;
+    background:
+      conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(92,225,255,0.07) 60deg, transparent 120deg, rgba(57,217,138,0.05) 200deg, transparent 280deg);
+    animation: spin 28s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  .card {
+    position: relative;
+    z-index: 2;
+    width: min(580px, 100%);
+    padding: 22px 20px 16px;
+    border-radius: 22px;
+    background: var(--glass);
+    border: 1px solid var(--glass-edge);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04) inset,
+      0 0 40px rgba(92, 225, 255, 0.12),
+      0 24px 60px rgba(0,0,0,0.45);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(120deg, transparent, rgba(92,225,255,0.7), transparent, rgba(57,217,138,0.35), transparent);
+    background-size: 200% 200%;
+    animation: shimmer 6s linear infinite;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .card:hover, .card:focus-visible {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.06) inset,
+      0 0 55px rgba(92, 225, 255, 0.22),
+      0 28px 70px rgba(0,0,0,0.55);
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    margin: 6px 0 0;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: var(--cyan);
+    border: 1px solid rgba(92, 225, 255, 0.45);
+    background: rgba(92, 225, 255, 0.1);
+    box-shadow: 0 0 16px rgba(92, 225, 255, 0.2);
+    white-space: nowrap;
+  }
+  .col-heads {
+    display: grid;
+    grid-template-columns: minmax(88px, 1.05fr) 78px minmax(120px, 1.25fr);
+    gap: 8px;
+    padding: 0 12px 8px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0 8px;
+    font-size: 0.7rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cyan);
+  }
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(92,225,255,0.45), transparent);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(88px, 1.05fr) 78px minmax(120px, 1.25fr);
+    gap: 8px;
+    align-items: center;
+    padding: 10px 12px;
+    margin-bottom: 7px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .row:hover {
+    background: rgba(92, 225, 255, 0.06);
+    border-color: rgba(92, 225, 255, 0.22);
+  }
+  .row.compact { padding: 8px 12px; }
+  .asset .ticker { font-weight: 750; font-size: 0.9rem; letter-spacing: 0.04em; }
+  .asset .price { font-size: 0.74rem; color: var(--muted); margin-top: 2px; }
+  .asset .price strong { color: var(--text); font-weight: 600; }
+  .pct {
+    font-weight: 750;
+    font-size: 0.82rem;
+    padding: 5px 7px;
+    border-radius: 9px;
+    justify-self: start;
+    white-space: nowrap;
+  }
+  .pct.up { color: var(--green); background: var(--green-dim); box-shadow: 0 0 12px rgba(57,217,138,0.15); }
+  .pct.down { color: var(--red); background: var(--red-dim); box-shadow: 0 0 12px rgba(255,107,122,0.15); }
+  .pct.flat { color: var(--muted); background: rgba(154,168,199,0.12); }
+  .dma { font-size: 0.76rem; color: var(--muted); line-height: 1.35; }
+  .dma strong { color: var(--text); font-weight: 600; }
+  .dma .gap {
+    display: inline-block;
+    margin-top: 4px;
+    font-weight: 750;
+    font-size: 0.74rem;
+    padding: 3px 7px;
+    border-radius: 7px;
+  }
+  .dma .gap.up { color: var(--green); background: var(--green-dim); }
+  .dma .gap.down { color: var(--red); background: var(--red-dim); }
+  .curve {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  @media (min-width: 480px) {
+    .curve { grid-template-columns: repeat(7, 1fr); }
+  }
+  .curve-cell {
+    padding: 8px 6px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    text-align: center;
+  }
+  .curve-cell .tenor {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .curve-cell .yld {
+    font-size: 0.88rem;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+  .curve-cell .chg {
+    font-size: 0.62rem;
+    font-weight: 650;
+    margin-top: 3px;
+  }
+  .curve-cell .chg.up { color: var(--red); }
+  .curve-cell .chg.down { color: var(--green); }
+  .note {
+    margin: 2px 4px 8px;
+    font-size: 0.66rem;
+    color: var(--muted);
+    line-height: 1.45;
+    opacity: 0.9;
+  }
+  .footer {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+  .tap { color: var(--cyan); font-weight: 650; }
+
+  .modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    place-items: center;
+    padding: 20px 14px;
+    background: rgba(4, 8, 20, 0.72);
+    backdrop-filter: blur(10px);
+    z-index: 50;
+  }
+  .modal.open { display: grid; }
+  .modal-inner {
+    width: min(860px, 100%);
+    max-height: min(92vh, 960px);
+    overflow: auto;
+    border-radius: 22px;
+    background: rgba(14, 20, 42, 0.88);
+    border: 1px solid rgba(92, 225, 255, 0.4);
+    box-shadow: 0 0 50px rgba(92, 225, 255, 0.18), 0 30px 80px rgba(0,0,0,0.55);
+    padding: 24px;
+    animation: pop 0.2s ease;
+  }
+  @keyframes pop {
+    from { transform: scale(0.96); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .modal-top h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+  }
+  .close {
+    appearance: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid rgba(92, 225, 255, 0.35);
+    background: rgba(92, 225, 255, 0.08);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 1.15rem;
+  }
+  .close:hover { background: rgba(92, 225, 255, 0.18); }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .tile {
+    padding: 16px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .tile .name {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .tile .price {
+    font-size: 1.45rem;
+    font-weight: 750;
+    margin-bottom: 10px;
+    letter-spacing: -0.03em;
+  }
+  .tile .metrics { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .tile .blurb { font-size: 0.78rem; color: var(--muted); line-height: 1.45; }
+  .full { grid-column: 1 / -1; }
+</style>
+</head>
+
+<body>
+  <article class="card" id="card" tabindex="0" role="button" aria-label="Open enlarged economics HUD card">
+    <div class="card-header">
+      <div>
+        <h1 class="title">Economics</h1>
+        <p class="subtitle">Mon 5 Oct 2026 · ~6:06pm London · HUD glass</p>
+      </div>
+      <span class="badge">MACRO</span>
+    </div>
+
+    <div class="section-label">US Treasury yields · curve close Fri 2 Oct</div>
+    <div class="curve">
+      <div class="curve-cell">
+        <div class="tenor">3M</div>
+        <div class="yld">4.19%</div>
+        <div class="chg up">+2 bp</div>
+      </div>
+      <div class="curve-cell">
+        <div class="tenor">2Y</div>
+        <div class="yld">4.83%</div>
+        <div class="chg up">+5 bp</div>
+      </div>
+      <div class="curve-cell">
+        <div class="tenor">5Y</div>
+        <div class="yld">5.06%</div>
+        <div class="chg up">+5 bp</div>
+      </div>
+      <div class="curve-cell">
+        <div class="tenor">7Y</div>
+        <div class="yld">5.17%</div>
+        <div class="chg up">+5 bp</div>
+      </div>
+      <div class="curve-cell">
+        <div class="tenor">10Y</div>
+        <div class="yld">5.28%</div>
+        <div class="chg up">+4 bp</div>
+      </div>
+      <div class="curve-cell">
+        <div class="tenor">20Y</div>
+        <div class="yld">5.67%</div>
+        <div class="chg up">+3 bp</div>
+      </div>
+      <div class="curve-cell">
+        <div class="tenor">30Y</div>
+        <div class="yld">5.63%</div>
+        <div class="chg up">+2 bp</div>
+      </div>
+    </div>
+    <p class="note">Official Daily Treasury Par Yield Curve (U.S. Treasury). Day change vs Thu 1 Oct. 2s10s +45 bp. Also 1M 4.04 · 6M 4.27 · 1Y 4.46 · 3Y 4.96. Live tape Mon (CNBC / Yahoo): 2Y ~4.80% · 10Y ~5.26–5.33% · 30Y ~5.61–5.69%.</p>
+
+    <div class="col-heads">
+      <span>Asset</span>
+      <span>Daily</span>
+      <span>Detail</span>
+    </div>
+
+    <div class="section-label">Bond ETFs · Yahoo live</div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">TLT</div>
+        <div class="price"><strong>$76.74</strong> · 20Y+</div>
+      </div>
+      <div class="pct down">−0.96%</div>
+      <div class="dma">Long Treasuries</div>
+    </div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">IEF</div>
+        <div class="price"><strong>$88.73</strong> · 7–10Y</div>
+      </div>
+      <div class="pct down">−0.36%</div>
+      <div class="dma">Intermediate</div>
+    </div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">SHY</div>
+        <div class="price"><strong>$81.03</strong> · 1–3Y</div>
+      </div>
+      <div class="pct down">−0.02%</div>
+      <div class="dma">Short Treasuries</div>
+    </div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">BND</div>
+        <div class="price"><strong>$69.75</strong></div>
+      </div>
+      <div class="pct down">−0.28%</div>
+      <div class="dma">Total US bond</div>
+    </div>
+
+    <div class="section-label">Major indices · Yahoo live Mon 5 Oct</div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">S&amp;P 500</div>
+        <div class="price"><strong>7,768.29</strong></div>
+      </div>
+      <div class="pct up">+0.59%</div>
+      <div class="dma">^GSPC</div>
+    </div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">Dow</div>
+        <div class="price"><strong>51,242</strong></div>
+      </div>
+      <div class="pct up">+0.13%</div>
+      <div class="dma">^DJI</div>
+    </div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">Nasdaq</div>
+        <div class="price"><strong>27,415</strong></div>
+      </div>
+      <div class="pct up">+0.82%</div>
+      <div class="dma">^IXIC</div>
+    </div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">Russell 2K</div>
+        <div class="price"><strong>2,852</strong></div>
+      </div>
+      <div class="pct up">+0.69%</div>
+      <div class="dma">^RUT</div>
+    </div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">VIX</div>
+        <div class="price"><strong>15.50</strong></div>
+      </div>
+      <div class="pct up">+1.24%</div>
+      <div class="dma">Fear gauge</div>
+    </div>
+
+    <div class="section-label">Macro headlines · latest prints</div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">CPI YoY</div>
+        <div class="price"><strong>3.4%</strong> · Aug</div>
+      </div>
+      <div class="pct flat">BLS</div>
+      <div class="dma">Core CPI <strong>2.4%</strong></div>
+    </div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">Jobless</div>
+        <div class="price"><strong>4.2%</strong> · Sep</div>
+      </div>
+      <div class="pct up">+0.1 pt</div>
+      <div class="dma">NFP <strong>+29k</strong></div>
+    </div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">GDP</div>
+        <div class="price"><strong>+2.2%</strong> · Q2</div>
+      </div>
+      <div class="pct flat">BEA</div>
+      <div class="dma">SAAR · 3rd estimate</div>
+    </div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">Fed funds</div>
+        <div class="price"><strong>3.75%</strong> · Sep</div>
+      </div>
+      <div class="pct flat">EFFR</div>
+      <div class="dma">~82% hold Oct FOMC</div>
+    </div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">DXY</div>
+        <div class="price"><strong>102.23</strong></div>
+      </div>
+      <div class="pct up">+0.30%</div>
+      <div class="dma">Dollar index</div>
+    </div>
+    <div class="row compact">
+      <div class="asset">
+        <div class="ticker">WTI / Gold</div>
+        <div class="price"><strong>$90.02</strong> · <strong>$4,161</strong></div>
+      </div>
+      <div class="pct down">−1.2%</div>
+      <div class="dma">Gold ≈ flat (−0.04%)</div>
+    </div>
+    <p class="note">CPI next: Sep print due Wed 14 Oct. Core PCE Q2 3.3% (BEA). Yields: Treasury.gov · ETFs/indices/DXY/commodities: Yahoo. Macro: BLS / BEA / FRED / CME FedWatch.</p>
+
+    <div class="footer">
+      <span>Treasury · Yahoo · BLS · BEA</span>
+      <span class="tap">Tap to enlarge</span>
+    </div>
+  </article>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-inner" role="dialog" aria-labelledby="modal-title">
+      <div class="modal-top">
+        <div>
+          <h2 id="modal-title">Economics · 5 Oct 2026</h2>
+          <p class="subtitle" style="margin-top:6px">HUD glass · yields · bonds · indices · macro</p>
+        </div>
+        <button class="close" id="close" aria-label="Close">×</button>
+      </div>
+      <div class="grid">
+        <div class="tile">
+          <div class="name">Treasury curve (Fri 2 Oct)</div>
+          <div class="price">10Y 5.28%</div>
+          <div class="metrics">
+            <span class="pct up">2Y 4.83%</span>
+            <span class="pct up">30Y 5.63%</span>
+          </div>
+          <div class="blurb">Full par curve: 3M 4.19 · 2Y 4.83 · 5Y 5.06 · 7Y 5.17 · 10Y 5.28 · 20Y 5.67 · 30Y 5.63. 2s10s +45 bp. Day vs 1 Oct. Live Mon tape slightly softer on 2s/10s per CNBC early session.</div>
+        </div>
+        <div class="tile">
+          <div class="name">Bond prices (ETFs)</div>
+          <div class="price">TLT $76.74</div>
+          <div class="metrics">
+            <span class="pct down">TLT −0.96%</span>
+            <span class="pct down">IEF −0.36%</span>
+          </div>
+          <div class="blurb">SHY $81.03 (−0.02%) · BND $69.75 (−0.28%). Yahoo live Mon 5 Oct.</div>
+        </div>
+        <div class="tile">
+          <div class="name">Equities &amp; vol</div>
+          <div class="price">S&amp;P 7,768</div>
+          <div class="metrics">
+            <span class="pct up">NDX +0.82%</span>
+            <span class="pct up">VIX 15.50</span>
+          </div>
+          <div class="blurb">Dow 51,242 (+0.13%) · Nasdaq 27,415 · Russell 2,852 (+0.69%).</div>
+        </div>
+        <div class="tile">
+          <div class="name">Inflation &amp; labour</div>
+          <div class="price">CPI 3.4%</div>
+          <div class="metrics">
+            <span class="pct flat">Core 2.4%</span>
+            <span class="pct up">U-3 4.2%</span>
+          </div>
+          <div class="blurb">CPI-U Aug YoY (BLS); Sep CPI due 14 Oct. Unemployment Sep 4.2%; NFP +29k (soft vs ~84k expected).</div>
+        </div>
+        <div class="tile">
+          <div class="name">Growth &amp; Fed</div>
+          <div class="price">GDP +2.2%</div>
+          <div class="metrics">
+            <span class="pct flat">EFFR 3.75%</span>
+          </div>
+          <div class="blurb">Real GDP Q2 SAAR, third estimate (BEA). Effective fed funds Sep 3.75% (FRED). CME FedWatch ~82% chance of hold at late-Oct FOMC.</div>
+        </div>
+        <div class="tile">
+          <div class="name">Dollar &amp; commodities</div>
+          <div class="price">DXY 102.23</div>
+          <div class="metrics">
+            <span class="pct up">DXY +0.30%</span>
+            <span class="pct down">WTI −1.2%</span>
+          </div>
+          <div class="blurb">WTI $90.02 · Gold ~$4,161 (−0.04%). Yahoo futures/spot proxies.</div>
+        </div>
+        <div class="tile full">
+          <div class="name">Sources</div>
+          <div class="blurb">U.S. Treasury Daily Par Yield Curve Rates (close Fri 2 Oct 2026). Bond ETFs, major indices, VIX, DXY, WTI, gold: Yahoo Finance live Mon 5 Oct ~evening London. CPI: BLS Aug 2026. Unemployment / NFP: BLS Sep 2026. GDP: BEA Q2 2026 third estimate. Fed funds: FRED FEDFUNDS Sep 2026. No investment advice.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById('card');
+    const modal = document.getElementById('modal');
+    const closeBtn = document.getElementById('close');
+    function openModal() {
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+    card.addEventListener('click', openModal);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); }
+    });
+    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModal(); });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>
