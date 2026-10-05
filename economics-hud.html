@@ -62,7 +62,7 @@
     -webkit-backdrop-filter: blur(18px) saturate(140%);
     cursor: pointer;
     outline: none;
-    overflow: hidden;
+    overflow: visible;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
   .card::before {
@@ -296,7 +296,7 @@
   .spark-name { font-size: 0.72rem; font-weight: 750; letter-spacing: 0.04em; }
   .spark-meta { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
   .spark-tile .pct { font-size: 0.7rem; padding: 3px 6px; }
-  svg.spark { display: block; width: 100%; height: 32px; margin: 4px 0 6px; }
+  svg.spark { display: block; width: 100%; height: 44px; margin: 4px 0 6px; overflow: visible; }
   .anchors {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
     font-size: 0.58rem; color: var(--muted); line-height: 1.25;
@@ -413,15 +413,36 @@
     min-height: 118px;
   }
   .spark-tile.yield-tile {
-    min-height: 128px;
-    border-color: rgba(92,225,255,0.22);
+    min-height: 148px;
+    border-color: rgba(92,225,255,0.35);
+    background: rgba(92,225,255,0.05);
   }
   .spark-title { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .spark-last {
     font-size: 0.85rem; font-weight: 750; letter-spacing: -0.02em; color: var(--text);
   }
-  svg.spark { height: 36px; overflow: visible; }
-  .spark-tile polyline, svg.spark polyline { stroke-width: 2.2; }
+  svg.spark { height: 44px; overflow: visible; }
+  .spark-tile.yield-tile svg.spark { height: 48px; min-height: 44px; }
+  .spark-tile polyline, svg.spark polyline { stroke-width: 2.4; }
+  .section-sparks.treasuries-primary {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  @media (min-width: 420px) {
+    .section-sparks.treasuries-primary { grid-template-columns: 1fr 1fr 1fr; }
+  }
+  .ref-curve-wrap {
+    margin: 10px 0 12px;
+    padding: 10px 10px 8px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px dashed rgba(154,168,199,0.28);
+  }
+  .ref-curve-wrap .section-label {
+    color: var(--muted);
+    margin-top: 0;
+  }
   .macro-note {
     font-size: 0.68rem; color: var(--muted); margin: 4px 0 8px; line-height: 1.4;
   }
@@ -450,21 +471,14 @@
     <div class="val">7,772 · <span data-core-chg>+17.5%</span> <span class="dir-pill up" data-core-dir>UP</span></div>
   </div>
   <svg class="spark" style="width:140px;height:34px;flex:0 0 auto" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline id="coreLine" fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,30.0 4.9,25.9 7.8,23.5 10.7,19.8 13.6,18.1 16.5,18.2 19.4,17.4 22.3,15.8 25.1,14.6 28.0,11.2 30.9,11.2 33.8,11.0 36.7,10.4 39.6,9.4 42.5,7.3 45.4,6.2 48.3,6.8 51.2,11.5 54.1,10.5 57.0,8.5 59.9,9.5 62.8,12.2 65.7,10.2 68.6,9.2 71.4,9.2 74.3,8.4 77.2,7.1 80.1,10.2 83.0,11.0 85.9,10.9 88.8,10.3 91.7,3.2 94.6,3.8 97.5,3.4 100.4,2.0 103.3,4.2 106.2,4.7 109.1,4.6 112.0,3.8 114.9,4.8 117.7,4.7 120.6,6.6 123.5,6.8 126.4,5.2 129.3,2.5 132.2,3.0 135.1,5.2 138.0,2.3"/>
+    <polyline id="coreLine" fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,30.0 4.9,25.9 7.8,23.5 10.7,19.8 13.6,18.1 16.5,18.2 19.4,17.4 22.3,15.8 25.1,14.6 28.0,11.2 30.9,11.2 33.8,11.0 36.7,10.4 39.6,9.4 42.5,7.3 45.4,6.2 48.3,6.8 51.2,11.5 54.1,10.5 57.0,8.5 59.9,9.5 62.8,12.2 65.7,10.2 68.6,9.2 71.4,9.2 74.3,8.4 77.2,7.1 80.1,10.2 83.0,11.0 85.9,10.9 88.8,10.3 91.7,3.2 94.6,3.8 97.5,3.4 100.4,2.0 103.3,4.2 106.2,4.7 109.1,4.6 112.0,3.8 114.9,4.8 117.7,4.7 120.6,6.6 123.5,6.8 126.4,5.2 129.3,2.5 132.2,3.0 135.1,5.2 138.0,2.3"/>
   </svg>
 </div>
       <p class="note">Shared range (default 6M) drives all sparklines, UP/DOWN, and vs S&amp;P core %. Anchors = levels ~1M/3M/6M/1Y ago. Macro chg = percentage points.</p>
     </div>
 
-    <div class="section-label">US Treasury yields · 10Y / 5Y / 30Y trends</div>
-    <p class="note">Reference tenors (official Daily Treasury Par Yield Curve · day vs Thu 1 Oct · 2s10s +45 bp). Live tape Mon: 2Y ~4.80% · 10Y ~5.26–5.33% · 30Y ~5.61–5.69%.</p>
-    <div class="curve curve-compact">
-      <div class="curve-cell"><div class="tenor">3M</div><div class="yld">4.19%</div><div class="chg up">+2 bp</div></div>
-      <div class="curve-cell"><div class="tenor">2Y</div><div class="yld">4.83%</div><div class="chg up">+5 bp</div></div>
-      <div class="curve-cell"><div class="tenor">7Y</div><div class="yld">5.17%</div><div class="chg up">+5 bp</div></div>
-      <div class="curve-cell"><div class="tenor">20Y</div><div class="yld">5.67%</div><div class="chg up">+3 bp</div></div>
-    </div>
-    <div class="section-sparks">
+    <div class="section-label">US Treasuries · 10Y / 5Y / 30Y</div>
+    <div class="section-sparks treasuries-primary">
 <div class="spark-tile yield-tile" data-key="10Y">
   <div class="spark-top">
     <div class="spark-title">
@@ -477,7 +491,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,27.8 4.9,28.9 7.8,28.8 10.7,28.5 13.6,30.0 16.5,28.1 19.4,27.3 22.3,26.4 25.1,25.7 28.0,27.1 30.9,24.5 33.8,21.1 36.7,21.7 39.6,22.1 42.5,24.7 45.4,24.7 48.3,24.2 51.2,22.9 54.1,23.9 57.0,25.4 59.9,23.4 62.8,26.4 65.7,26.8 68.6,24.0 71.4,21.8 74.3,20.8 77.2,22.4 80.1,21.1 83.0,18.4 85.9,20.0 88.8,19.4 91.7,20.3 94.6,19.2 97.5,18.9 100.4,18.6 103.3,18.3 106.2,17.5 109.1,19.4 112.0,17.9 114.9,16.0 117.7,15.7 120.6,12.2 123.5,10.9 126.4,10.8 129.3,11.6 132.2,6.0 135.1,3.2 138.0,2.0"/>
+    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,27.8 4.9,28.9 7.8,28.8 10.7,28.5 13.6,30.0 16.5,28.1 19.4,27.3 22.3,26.4 25.1,25.7 28.0,27.1 30.9,24.5 33.8,21.1 36.7,21.7 39.6,22.1 42.5,24.7 45.4,24.7 48.3,24.2 51.2,22.9 54.1,23.9 57.0,25.4 59.9,23.4 62.8,26.4 65.7,26.8 68.6,24.0 71.4,21.8 74.3,20.8 77.2,22.4 80.1,21.1 83.0,18.4 85.9,20.0 88.8,19.4 91.7,20.3 94.6,19.2 97.5,18.9 100.4,18.6 103.3,18.3 106.2,17.5 109.1,19.4 112.0,17.9 114.9,16.0 117.7,15.7 120.6,12.2 123.5,10.9 126.4,10.8 129.3,11.6 132.2,6.0 135.1,3.2 138.0,2.0"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">4.76%</strong></span><span>3M<br><strong data-a="3M">4.53%</strong></span><span>6M<br><strong data-a="6M">4.33%</strong></span><span>1Y<br><strong data-a="1Y">4.16%</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: n/a (yield/vol)</div></div>
@@ -494,7 +508,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,27.0 4.9,28.4 7.8,28.5 10.7,28.6 13.6,30.0 16.5,27.7 19.4,27.0 22.3,26.1 25.1,25.0 28.0,26.3 30.9,23.8 33.8,20.8 36.7,21.6 39.6,20.9 42.5,23.0 45.4,22.6 48.3,22.4 51.2,20.9 54.1,21.8 57.0,23.2 59.9,20.2 62.8,22.9 65.7,23.4 68.6,21.4 71.4,19.7 74.3,18.4 77.2,20.9 80.1,19.2 83.0,16.2 85.9,17.7 88.8,18.2 91.7,19.1 94.6,17.9 97.5,17.9 100.4,18.5 103.3,18.4 106.2,17.1 109.1,18.0 112.0,15.8 114.9,14.2 117.7,13.7 120.6,10.1 123.5,8.0 126.4,7.3 129.3,7.7 132.2,3.9 135.1,2.1 138.0,2.0"/>
+    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,27.0 4.9,28.4 7.8,28.5 10.7,28.6 13.6,30.0 16.5,27.7 19.4,27.0 22.3,26.1 25.1,25.0 28.0,26.3 30.9,23.8 33.8,20.8 36.7,21.6 39.6,20.9 42.5,23.0 45.4,22.6 48.3,22.4 51.2,20.9 54.1,21.8 57.0,23.2 59.9,20.2 62.8,22.9 65.7,23.4 68.6,21.4 71.4,19.7 74.3,18.4 77.2,20.9 80.1,19.2 83.0,16.2 85.9,17.7 88.8,18.2 91.7,19.1 94.6,17.9 97.5,17.9 100.4,18.5 103.3,18.4 106.2,17.1 109.1,18.0 112.0,15.8 114.9,14.2 117.7,13.7 120.6,10.1 123.5,8.0 126.4,7.3 129.3,7.7 132.2,3.9 135.1,2.1 138.0,2.0"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">4.51%</strong></span><span>3M<br><strong data-a="3M">4.26%</strong></span><span>6M<br><strong data-a="6M">3.98%</strong></span><span>1Y<br><strong data-a="1Y">3.75%</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: n/a (yield/vol)</div></div>
@@ -511,14 +525,25 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,28.9 4.9,29.0 7.8,28.6 10.7,27.6 13.6,29.2 16.5,28.0 19.4,27.1 22.3,25.7 25.1,25.8 28.0,27.0 30.9,24.2 33.8,21.0 36.7,21.4 39.6,23.1 42.5,25.8 45.4,26.4 48.3,26.0 51.2,24.9 54.1,26.1 57.0,27.7 59.9,27.0 62.8,30.0 65.7,29.9 68.6,25.8 71.4,23.1 74.3,22.0 77.2,22.5 80.1,21.3 83.0,19.6 85.9,21.1 88.8,18.3 91.7,18.9 94.6,18.2 97.5,17.4 100.4,16.4 103.3,15.7 106.2,16.1 109.1,19.1 112.0,18.4 114.9,16.4 117.7,16.5 120.6,13.2 123.5,13.1 126.4,14.2 129.3,15.1 132.2,8.4 135.1,4.0 138.0,2.0"/>
+    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,28.9 4.9,29.0 7.8,28.6 10.7,27.6 13.6,29.2 16.5,28.0 19.4,27.1 22.3,25.7 25.1,25.8 28.0,27.0 30.9,24.2 33.8,21.0 36.7,21.4 39.6,23.1 42.5,25.8 45.4,26.4 48.3,26.0 51.2,24.9 54.1,26.1 57.0,27.7 59.9,27.0 62.8,30.0 65.7,29.9 68.6,25.8 71.4,23.1 74.3,22.0 77.2,22.5 80.1,21.3 83.0,19.6 85.9,21.1 88.8,18.3 91.7,18.9 94.6,18.2 97.5,17.4 100.4,16.4 103.3,15.7 106.2,16.1 109.1,19.1 112.0,18.4 114.9,16.4 117.7,16.5 120.6,13.2 123.5,13.1 126.4,14.2 129.3,15.1 132.2,8.4 135.1,4.0 138.0,2.0"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">5.24%</strong></span><span>3M<br><strong data-a="3M">5.04%</strong></span><span>6M<br><strong data-a="6M">4.89%</strong></span><span>1Y<br><strong data-a="1Y">4.76%</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: n/a (yield/vol)</div></div>
 </div>
+    
+    </div>
+    <div class="ref-curve-wrap">
+      <div class="section-label">Reference curve (no spark) · 3M / 2Y / 7Y / 20Y</div>
+      <p class="note">Official Daily Treasury Par Yield Curve · day vs Thu 1 Oct · 2s10s +45 bp. Live tape Mon: 2Y ~4.80% · 10Y ~5.26–5.33% · 30Y ~5.61–5.69%.</p>
+      <div class="curve curve-compact">
+        <div class="curve-cell"><div class="tenor">3M</div><div class="yld">4.19%</div><div class="chg up">+2 bp</div></div>
+        <div class="curve-cell"><div class="tenor">2Y</div><div class="yld">4.83%</div><div class="chg up">+5 bp</div></div>
+        <div class="curve-cell"><div class="tenor">7Y</div><div class="yld">5.17%</div><div class="chg up">+5 bp</div></div>
+        <div class="curve-cell"><div class="tenor">20Y</div><div class="yld">5.67%</div><div class="chg up">+3 bp</div></div>
+      </div>
     </div>
 
-    <div class="section-label">Bond ETFs · Yahoo live</div>
+<div class="section-label">Bond ETFs · Yahoo live</div>
     <div class="section-sparks">
 <div class="spark-tile" data-key="TLT">
   <div class="spark-top">
@@ -532,7 +557,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,4.1 4.9,3.4 7.8,3.8 10.7,5.1 13.6,3.0 16.5,4.4 19.4,4.8 22.3,6.8 25.1,7.3 28.0,5.6 30.9,8.4 33.8,11.9 36.7,11.3 39.6,9.3 42.5,6.5 45.4,6.7 48.3,7.1 51.2,8.1 54.1,6.4 57.0,5.3 59.9,5.6 62.8,2.3 65.7,2.0 68.6,7.1 71.4,10.1 74.3,11.1 77.2,10.4 80.1,11.3 83.0,13.2 85.9,11.7 88.8,14.2 91.7,14.1 94.6,14.9 97.5,15.8 100.4,16.2 103.3,17.2 106.2,16.2 109.1,12.9 112.0,14.0 114.9,16.4 117.7,15.8 120.6,19.5 123.5,19.7 126.4,18.2 129.3,16.9 132.2,23.3 135.1,27.3 138.0,30.0"/>
+    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,4.1 4.9,3.4 7.8,3.8 10.7,5.1 13.6,3.0 16.5,4.4 19.4,4.8 22.3,6.8 25.1,7.3 28.0,5.6 30.9,8.4 33.8,11.9 36.7,11.3 39.6,9.3 42.5,6.5 45.4,6.7 48.3,7.1 51.2,8.1 54.1,6.4 57.0,5.3 59.9,5.6 62.8,2.3 65.7,2.0 68.6,7.1 71.4,10.1 74.3,11.1 77.2,10.4 80.1,11.3 83.0,13.2 85.9,11.7 88.8,14.2 91.7,14.1 94.6,14.9 97.5,15.8 100.4,16.2 103.3,17.2 106.2,16.2 109.1,12.9 112.0,14.0 114.9,16.4 117.7,15.8 120.6,19.5 123.5,19.7 126.4,18.2 129.3,16.9 132.2,23.3 135.1,27.3 138.0,30.0"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">$82.07</strong></span><span>3M<br><strong data-a="3M">$84.55</strong></span><span>6M<br><strong data-a="6M">$86.65</strong></span><span>1Y<br><strong data-a="1Y">$88.67</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: <em class="down">−28.9%</em></div></div>
@@ -549,7 +574,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,3.9 4.9,2.2 7.8,2.0 10.7,2.3 13.6,2.2 16.5,2.5 19.4,2.9 22.3,5.0 25.1,5.9 28.0,4.1 30.9,6.8 33.8,10.1 36.7,9.2 39.6,6.9 42.5,5.4 45.4,7.1 48.3,9.7 51.2,9.4 54.1,7.4 57.0,8.0 59.9,7.6 62.8,4.8 65.7,5.7 68.6,7.4 71.4,10.1 74.3,11.0 77.2,9.3 80.1,10.0 83.0,12.8 85.9,9.9 88.8,11.4 91.7,11.2 94.6,11.5 97.5,12.8 100.4,12.1 103.3,10.7 106.2,12.2 109.1,10.9 112.0,13.3 114.9,15.2 117.7,15.7 120.6,20.4 123.5,21.6 126.4,21.3 129.3,23.8 132.2,26.5 135.1,27.4 138.0,30.0"/>
+    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,3.9 4.9,2.2 7.8,2.0 10.7,2.3 13.6,2.2 16.5,2.5 19.4,2.9 22.3,5.0 25.1,5.9 28.0,4.1 30.9,6.8 33.8,10.1 36.7,9.2 39.6,6.9 42.5,5.4 45.4,7.1 48.3,9.7 51.2,9.4 54.1,7.4 57.0,8.0 59.9,7.6 62.8,4.8 65.7,5.7 68.6,7.4 71.4,10.1 74.3,11.0 77.2,9.3 80.1,10.0 83.0,12.8 85.9,9.9 88.8,11.4 91.7,11.2 94.6,11.5 97.5,12.8 100.4,12.1 103.3,10.7 106.2,12.2 109.1,10.9 112.0,13.3 114.9,15.2 117.7,15.7 120.6,20.4 123.5,21.6 126.4,21.3 129.3,23.8 132.2,26.5 135.1,27.4 138.0,30.0"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">$92.25</strong></span><span>3M<br><strong data-a="3M">$94.18</strong></span><span>6M<br><strong data-a="6M">$95.01</strong></span><span>1Y<br><strong data-a="1Y">$96.12</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: <em class="down">−24.2%</em></div></div>
@@ -566,7 +591,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,6.2 4.9,3.1 7.8,2.6 10.7,2.4 13.6,2.4 16.5,2.4 19.4,2.0 22.3,6.8 25.1,7.9 28.0,5.8 30.9,7.9 33.8,10.4 36.7,8.7 39.6,7.5 42.5,5.8 45.4,11.3 48.3,14.2 51.2,12.7 54.1,10.2 57.0,13.8 59.9,12.1 62.8,9.8 65.7,9.4 68.6,11.9 71.4,14.6 74.3,15.5 77.2,11.5 80.1,12.3 83.0,15.9 85.9,12.7 88.8,11.3 91.7,14.0 94.6,13.0 97.5,14.0 100.4,11.5 103.3,10.4 106.2,11.5 109.1,10.6 112.0,13.6 114.9,17.0 117.7,18.0 120.6,23.5 123.5,26.0 126.4,26.0 129.3,28.3 132.2,28.5 135.1,26.8 138.0,30.0"/>
+    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,6.2 4.9,3.1 7.8,2.6 10.7,2.4 13.6,2.4 16.5,2.4 19.4,2.0 22.3,6.8 25.1,7.9 28.0,5.8 30.9,7.9 33.8,10.4 36.7,8.7 39.6,7.5 42.5,5.8 45.4,11.3 48.3,14.2 51.2,12.7 54.1,10.2 57.0,13.8 59.9,12.1 62.8,9.8 65.7,9.4 68.6,11.9 71.4,14.6 74.3,15.5 77.2,11.5 80.1,12.3 83.0,15.9 85.9,12.7 88.8,11.3 91.7,14.0 94.6,13.0 97.5,14.0 100.4,11.5 103.3,10.4 106.2,11.5 109.1,10.6 112.0,13.6 114.9,17.0 117.7,18.0 120.6,23.5 123.5,26.0 126.4,26.0 129.3,28.3 132.2,28.5 135.1,26.8 138.0,30.0"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">$81.69</strong></span><span>3M<br><strong data-a="3M">$81.98</strong></span><span>6M<br><strong data-a="6M">$82.28</strong></span><span>1Y<br><strong data-a="1Y">$82.77</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: <em class="down">−19.1%</em></div></div>
@@ -583,7 +608,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,4.3 4.9,2.3 7.8,2.0 10.7,2.2 13.6,2.1 16.5,2.5 19.4,2.6 22.3,5.0 25.1,5.9 28.0,3.7 30.9,6.3 33.8,9.3 36.7,8.5 39.6,6.1 42.5,4.3 45.4,6.1 48.3,8.7 51.2,8.1 54.1,5.9 57.0,6.5 59.9,6.0 62.8,3.4 65.7,4.7 68.6,6.5 71.4,9.6 74.3,10.9 77.2,8.8 80.1,9.7 83.0,12.7 85.9,10.0 88.8,11.5 91.7,11.4 94.6,11.6 97.5,12.9 100.4,12.3 103.3,10.5 106.2,11.8 109.1,10.4 112.0,12.7 114.9,14.9 117.7,15.1 120.6,19.7 123.5,20.5 126.4,19.9 129.3,22.6 132.2,26.2 135.1,27.1 138.0,30.0"/>
+    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,4.3 4.9,2.3 7.8,2.0 10.7,2.2 13.6,2.1 16.5,2.5 19.4,2.6 22.3,5.0 25.1,5.9 28.0,3.7 30.9,6.3 33.8,9.3 36.7,8.5 39.6,6.1 42.5,4.3 45.4,6.1 48.3,8.7 51.2,8.1 54.1,5.9 57.0,6.5 59.9,6.0 62.8,3.4 65.7,4.7 68.6,6.5 71.4,9.6 74.3,10.9 77.2,8.8 80.1,9.7 83.0,12.7 85.9,10.0 88.8,11.5 91.7,11.4 94.6,11.6 97.5,12.9 100.4,12.3 103.3,10.5 106.2,11.8 109.1,10.4 112.0,12.7 114.9,14.9 117.7,15.1 120.6,19.7 123.5,20.5 126.4,19.9 129.3,22.6 132.2,26.2 135.1,27.1 138.0,30.0"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">$71.95</strong></span><span>3M<br><strong data-a="3M">$73.14</strong></span><span>6M<br><strong data-a="6M">$73.47</strong></span><span>1Y<br><strong data-a="1Y">$74.14</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: <em class="down">−22.6%</em></div></div>
@@ -604,7 +629,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,30.0 4.9,25.9 7.8,23.5 10.7,19.8 13.6,18.1 16.5,18.2 19.4,17.4 22.3,15.8 25.1,14.6 28.0,11.2 30.9,11.2 33.8,11.0 36.7,10.4 39.6,9.4 42.5,7.3 45.4,6.2 48.3,6.8 51.2,11.5 54.1,10.5 57.0,8.5 59.9,9.5 62.8,12.2 65.7,10.2 68.6,9.2 71.4,9.2 74.3,8.4 77.2,7.1 80.1,10.2 83.0,11.0 85.9,10.9 88.8,10.3 91.7,3.2 94.6,3.8 97.5,3.4 100.4,2.0 103.3,4.2 106.2,4.7 109.1,4.6 112.0,3.8 114.9,4.8 117.7,4.7 120.6,6.6 123.5,6.8 126.4,5.2 129.3,2.5 132.2,3.0 135.1,5.2 138.0,2.3"/>
+    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,30.0 4.9,25.9 7.8,23.5 10.7,19.8 13.6,18.1 16.5,18.2 19.4,17.4 22.3,15.8 25.1,14.6 28.0,11.2 30.9,11.2 33.8,11.0 36.7,10.4 39.6,9.4 42.5,7.3 45.4,6.2 48.3,6.8 51.2,11.5 54.1,10.5 57.0,8.5 59.9,9.5 62.8,12.2 65.7,10.2 68.6,9.2 71.4,9.2 74.3,8.4 77.2,7.1 80.1,10.2 83.0,11.0 85.9,10.9 88.8,10.3 91.7,3.2 94.6,3.8 97.5,3.4 100.4,2.0 103.3,4.2 106.2,4.7 109.1,4.6 112.0,3.8 114.9,4.8 117.7,4.7 120.6,6.6 123.5,6.8 126.4,5.2 129.3,2.5 132.2,3.0 135.1,5.2 138.0,2.3"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">7,748</strong></span><span>3M<br><strong data-a="3M">7,504</strong></span><span>6M<br><strong data-a="6M">6,612</strong></span><span>1Y<br><strong data-a="1Y">6,740</strong></span></div>
   <div data-vs><div class="vs-core">Core indicator</div></div>
@@ -621,7 +646,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,30.0 4.9,26.7 7.8,23.9 10.7,19.2 13.6,17.6 16.5,17.4 19.4,16.3 22.3,15.1 25.1,12.9 28.0,8.1 30.9,8.9 33.8,8.2 36.7,8.0 39.6,7.6 42.5,4.7 45.4,3.8 48.3,5.1 51.2,11.1 54.1,10.0 57.0,7.5 59.9,8.5 62.8,12.7 65.7,10.3 68.6,10.3 71.4,10.1 74.3,10.1 77.2,8.0 80.1,11.9 83.0,13.8 85.9,14.9 88.8,13.9 91.7,6.4 94.6,7.6 97.5,7.1 100.4,5.7 103.3,7.9 106.2,8.5 109.1,8.7 112.0,7.3 114.9,8.3 117.7,7.2 120.6,9.0 123.5,9.5 126.4,6.7 129.3,3.0 132.2,3.9 135.1,5.0 138.0,2.0"/>
+    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,30.0 4.9,26.7 7.8,23.9 10.7,19.2 13.6,17.6 16.5,17.4 19.4,16.3 22.3,15.1 25.1,12.9 28.0,8.1 30.9,8.9 33.8,8.2 36.7,8.0 39.6,7.6 42.5,4.7 45.4,3.8 48.3,5.1 51.2,11.1 54.1,10.0 57.0,7.5 59.9,8.5 62.8,12.7 65.7,10.3 68.6,10.3 71.4,10.1 74.3,10.1 77.2,8.0 80.1,11.9 83.0,13.8 85.9,14.9 88.8,13.9 91.7,6.4 94.6,7.6 97.5,7.1 100.4,5.7 103.3,7.9 106.2,8.5 109.1,8.7 112.0,7.3 114.9,8.3 117.7,7.2 120.6,9.0 123.5,9.5 126.4,6.7 129.3,3.0 132.2,3.9 135.1,5.0 138.0,2.0"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">26,584</strong></span><span>3M<br><strong data-a="3M">25,819</strong></span><span>6M<br><strong data-a="6M">21,996</strong></span><span>1Y<br><strong data-a="1Y">22,942</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: <em class="up">+7.2%</em></div></div>
@@ -638,7 +663,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,24.4 4.9,14.0 7.8,13.8 10.7,11.4 13.6,18.3 16.5,23.2 19.4,30.0 22.3,23.8 25.1,27.4 28.0,27.9 30.9,23.5 33.8,25.2 36.7,19.6 39.6,18.1 42.5,24.8 45.4,24.0 48.3,23.4 51.2,26.3 54.1,18.5 57.0,22.4 59.9,21.2 62.8,17.9 65.7,18.4 68.6,10.9 71.4,18.7 74.3,18.3 77.2,17.6 80.1,17.2 83.0,12.6 85.9,6.7 88.8,2.0 91.7,2.7 94.6,3.2 97.5,4.2 100.4,8.0 103.3,8.9 106.2,5.3 109.1,2.8 112.0,5.0 114.9,4.7 117.7,5.5 120.6,13.8 123.5,11.8 126.4,11.7 129.3,9.7 132.2,10.3 135.1,13.9 138.0,18.3"/>
+    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,24.4 4.9,14.0 7.8,13.8 10.7,11.4 13.6,18.3 16.5,23.2 19.4,30.0 22.3,23.8 25.1,27.4 28.0,27.9 30.9,23.5 33.8,25.2 36.7,19.6 39.6,18.1 42.5,24.8 45.4,24.0 48.3,23.4 51.2,26.3 54.1,18.5 57.0,22.4 59.9,21.2 62.8,17.9 65.7,18.4 68.6,10.9 71.4,18.7 74.3,18.3 77.2,17.6 80.1,17.2 83.0,12.6 85.9,6.7 88.8,2.0 91.7,2.7 94.6,3.2 97.5,4.2 100.4,8.0 103.3,8.9 106.2,5.3 109.1,2.8 112.0,5.0 114.9,4.7 117.7,5.5 120.6,13.8 123.5,11.8 126.4,11.7 129.3,9.7 132.2,10.3 135.1,13.9 138.0,18.3"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">10,831</strong></span><span>3M<br><strong data-a="3M">10,666</strong></span><span>6M<br><strong data-a="6M">10,349</strong></span><span>1Y<br><strong data-a="1Y">9,479</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: <em class="down">−16.1%</em></div></div>
@@ -655,7 +680,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,30.0 4.9,24.3 7.8,24.2 10.7,22.8 13.6,20.6 16.5,20.0 19.4,20.7 22.3,19.3 25.1,20.1 28.0,18.9 30.9,18.6 33.8,19.2 36.7,17.4 39.6,15.7 42.5,13.5 45.4,12.5 48.3,14.2 51.2,17.7 54.1,12.9 57.0,11.8 59.9,11.1 62.8,10.2 65.7,8.7 68.6,5.9 71.4,8.6 74.3,8.0 77.2,7.8 80.1,10.5 83.0,11.0 85.9,7.1 88.8,9.1 91.7,2.0 94.6,2.2 97.5,3.1 100.4,3.3 103.3,4.4 106.2,4.5 109.1,4.3 112.0,5.4 114.9,3.5 117.7,6.9 120.6,7.7 123.5,11.9 126.4,11.1 129.3,11.7 132.2,11.8 135.1,14.0 138.0,12.7"/>
+    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,30.0 4.9,24.3 7.8,24.2 10.7,22.8 13.6,20.6 16.5,20.0 19.4,20.7 22.3,19.3 25.1,20.1 28.0,18.9 30.9,18.6 33.8,19.2 36.7,17.4 39.6,15.7 42.5,13.5 45.4,12.5 48.3,14.2 51.2,17.7 54.1,12.9 57.0,11.8 59.9,11.1 62.8,10.2 65.7,8.7 68.6,5.9 71.4,8.6 74.3,8.0 77.2,7.8 80.1,10.5 83.0,11.0 85.9,7.1 88.8,9.1 91.7,2.0 94.6,2.2 97.5,3.1 100.4,3.3 103.3,4.4 106.2,4.5 109.1,4.3 112.0,5.4 114.9,3.5 117.7,6.9 120.6,7.7 123.5,11.9 126.4,11.1 129.3,11.7 132.2,11.8 135.1,14.0 138.0,12.7"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">53,414</strong></span><span>3M<br><strong data-a="3M">53,056</strong></span><span>6M<br><strong data-a="6M">46,670</strong></span><span>1Y<br><strong data-a="1Y">46,695</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: <em class="down">−7.8%</em></div></div>
@@ -672,7 +697,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,30.0 4.9,24.9 7.8,23.1 10.7,20.5 13.6,18.1 16.5,17.6 19.4,18.6 22.3,15.6 25.1,13.9 28.0,13.0 30.9,13.9 33.8,16.6 36.7,15.3 39.6,9.8 42.5,9.9 45.4,9.2 48.3,14.5 51.2,14.4 54.1,8.6 57.0,10.0 59.9,6.9 62.8,5.2 65.7,4.3 68.6,5.1 71.4,7.9 74.3,8.1 77.2,7.0 80.1,8.7 83.0,8.8 85.9,8.1 88.8,8.5 91.7,3.7 94.6,3.8 97.5,4.2 100.4,2.0 103.3,3.9 106.2,5.9 109.1,5.3 112.0,7.9 114.9,7.3 117.7,7.7 120.6,10.7 123.5,13.1 126.4,13.0 129.3,14.2 132.2,15.3 135.1,16.4 138.0,13.6"/>
+    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,30.0 4.9,24.9 7.8,23.1 10.7,20.5 13.6,18.1 16.5,17.6 19.4,18.6 22.3,15.6 25.1,13.9 28.0,13.0 30.9,13.9 33.8,16.6 36.7,15.3 39.6,9.8 42.5,9.9 45.4,9.2 48.3,14.5 51.2,14.4 54.1,8.6 57.0,10.0 59.9,6.9 62.8,5.2 65.7,4.3 68.6,5.1 71.4,7.9 74.3,8.1 77.2,7.0 80.1,8.7 83.0,8.8 85.9,8.1 88.8,8.5 91.7,3.7 94.6,3.8 97.5,4.2 100.4,2.0 103.3,3.9 106.2,5.9 109.1,5.3 112.0,7.9 114.9,7.3 117.7,7.7 120.6,10.7 123.5,13.1 126.4,13.0 129.3,14.2 132.2,15.3 135.1,16.4 138.0,13.6"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">2,976</strong></span><span>3M<br><strong data-a="3M">3,010</strong></span><span>6M<br><strong data-a="6M">2,541</strong></span><span>1Y<br><strong data-a="1Y">2,486</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: <em class="down">−5.4%</em></div></div>
@@ -689,7 +714,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,6.1 4.9,12.5 7.8,16.2 10.7,13.7 13.6,13.5 16.5,16.7 19.4,20.6 22.3,15.7 25.1,20.0 28.0,16.8 30.9,19.3 33.8,16.5 36.7,21.3 39.6,20.2 42.5,26.1 45.4,23.5 48.3,4.5 51.2,2.0 54.1,23.0 57.0,15.2 59.9,11.5 62.8,15.3 65.7,22.2 68.6,25.2 71.4,24.3 74.3,22.0 77.2,21.2 80.1,20.1 83.0,14.7 85.9,16.0 88.8,23.8 91.7,24.4 94.6,27.6 97.5,28.8 100.4,26.6 103.3,27.6 106.2,24.3 109.1,29.0 112.0,27.5 114.9,29.6 117.7,24.7 120.6,17.3 123.5,19.5 126.4,27.9 129.3,30.0 132.2,27.7 135.1,22.6 138.0,25.5"/>
+    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,6.1 4.9,12.5 7.8,16.2 10.7,13.7 13.6,13.5 16.5,16.7 19.4,20.6 22.3,15.7 25.1,20.0 28.0,16.8 30.9,19.3 33.8,16.5 36.7,21.3 39.6,20.2 42.5,26.1 45.4,23.5 48.3,4.5 51.2,2.0 54.1,23.0 57.0,15.2 59.9,11.5 62.8,15.3 65.7,22.2 68.6,25.2 71.4,24.3 74.3,22.0 77.2,21.2 80.1,20.1 83.0,14.7 85.9,16.0 88.8,23.8 91.7,24.4 94.6,27.6 97.5,28.8 100.4,26.6 103.3,27.6 106.2,24.3 109.1,29.0 112.0,27.5 114.9,29.6 117.7,24.7 120.6,17.3 123.5,19.5 126.4,27.9 129.3,30.0 132.2,27.7 135.1,22.6 138.0,25.5"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">14.53</strong></span><span>3M<br><strong data-a="3M">16.90</strong></span><span>6M<br><strong data-a="6M">21.04</strong></span><span>1Y<br><strong data-a="1Y">16.37</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: n/a (yield/vol)</div></div>
@@ -710,7 +735,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,16.5 4.9,21.9 7.8,26.7 10.7,27.6 13.6,28.7 16.5,24.0 19.4,25.1 22.3,28.5 25.1,26.0 28.0,30.0 30.9,27.2 33.8,21.0 36.7,22.0 39.6,20.7 42.5,22.6 45.4,21.3 48.3,20.1 51.2,17.0 54.1,18.0 57.0,19.3 59.9,10.0 62.8,7.4 65.7,9.4 68.6,11.0 71.4,9.8 74.3,8.4 77.2,13.3 80.1,10.2 83.0,7.4 85.9,6.9 88.8,16.4 91.7,17.1 94.6,16.6 97.5,17.6 100.4,18.5 103.3,18.6 106.2,24.0 109.1,21.6 112.0,18.3 114.9,19.2 117.7,23.7 120.6,22.1 123.5,18.6 126.4,15.0 129.3,12.7 132.2,10.3 135.1,7.3 138.0,2.0"/>
+    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,16.5 4.9,21.9 7.8,26.7 10.7,27.6 13.6,28.7 16.5,24.0 19.4,25.1 22.3,28.5 25.1,26.0 28.0,30.0 30.9,27.2 33.8,21.0 36.7,22.0 39.6,20.7 42.5,22.6 45.4,21.3 48.3,20.1 51.2,17.0 54.1,18.0 57.0,19.3 59.9,10.0 62.8,7.4 65.7,9.4 68.6,11.0 71.4,9.8 74.3,8.4 77.2,13.3 80.1,10.2 83.0,7.4 85.9,6.9 88.8,16.4 91.7,17.1 94.6,16.6 97.5,17.6 100.4,18.5 103.3,18.6 106.2,24.0 109.1,21.6 112.0,18.3 114.9,19.2 117.7,23.7 120.6,22.1 123.5,18.6 126.4,15.0 129.3,12.7 132.2,10.3 135.1,7.3 138.0,2.0"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">99.00</strong></span><span>3M<br><strong data-a="3M">101.14</strong></span><span>6M<br><strong data-a="6M">99.98</strong></span><span>1Y<br><strong data-a="1Y">98.11</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: <em class="down">−15.2%</em></div></div>
@@ -727,7 +752,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.5,29.5 21.8,28.9 41.1,15.8 60.4,8.4 79.6,2.5 98.9,13.3 118.2,15.7 137.5,14.9"/>
+    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.5,29.5 21.8,28.9 41.1,15.8 60.4,8.4 79.6,2.5 98.9,13.3 118.2,15.7 137.5,14.9"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">3.30%</strong></span><span>3M<br><strong data-a="3M">4.17%</strong></span><span>6M<br><strong data-a="6M">2.39%</strong></span><span>1Y<br><strong data-a="1Y">2.94%</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: n/a (macro print)</div></div>
@@ -744,7 +769,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.5,2.5 25.0,2.5 47.5,2.5 70.0,16.0 92.5,29.5 115.0,29.5 137.5,16.0"/>
+    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.5,2.5 25.0,2.5 47.5,2.5 70.0,16.0 92.5,29.5 115.0,29.5 137.5,16.0"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">4.10%</strong></span><span>3M<br><strong data-a="3M">4.20%</strong></span><span>6M<br><strong data-a="6M">4.30%</strong></span><span>1Y<br><strong data-a="1Y">4.40%</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: n/a (macro print)</div></div>
@@ -761,7 +786,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.5,29.5 70.0,2.5 137.5,6.0"/>
+    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.5,29.5 70.0,2.5 137.5,6.0"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">2.50%</strong></span><span>3M<br><strong data-a="3M">0.20%</strong></span><span>6M<br><strong data-a="6M">0.20%</strong></span><span>1Y<br><strong data-a="1Y">4.00%</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: n/a (macro print)</div></div>
@@ -778,7 +803,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.5,27.2 25.0,27.2 47.5,29.5 70.0,29.5 92.5,29.5 115.0,29.5 137.5,2.5"/>
+    <polyline data-line fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.5,27.2 25.0,27.2 47.5,29.5 70.0,29.5 92.5,29.5 115.0,29.5 137.5,2.5"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">3.63%</strong></span><span>3M<br><strong data-a="3M">3.63%</strong></span><span>6M<br><strong data-a="6M">3.64%</strong></span><span>1Y<br><strong data-a="1Y">4.22%</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: n/a (macro print)</div></div>
@@ -800,7 +825,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,2.0 4.9,13.5 7.8,10.5 10.7,13.3 13.6,16.6 16.5,12.6 19.4,10.0 22.3,6.7 25.1,8.5 28.0,12.9 30.9,8.6 33.8,6.5 36.7,11.1 39.6,12.1 42.5,17.1 45.4,13.9 48.3,14.4 51.2,17.5 54.1,19.6 57.0,25.3 59.9,26.1 62.8,27.9 65.7,28.7 68.6,30.0 71.4,26.9 74.3,23.9 77.2,23.0 80.1,20.7 83.0,14.9 85.9,21.1 88.8,20.5 91.7,25.5 94.6,24.5 97.5,20.7 100.4,21.2 103.3,19.6 106.2,18.2 109.1,21.3 112.0,20.6 114.9,15.7 117.7,14.4 120.6,8.4 123.5,6.2 126.4,9.8 129.3,13.4 132.2,14.8 135.1,16.1 138.0,16.3"/>
+    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,2.0 4.9,13.5 7.8,10.5 10.7,13.3 13.6,16.6 16.5,12.6 19.4,10.0 22.3,6.7 25.1,8.5 28.0,12.9 30.9,8.6 33.8,6.5 36.7,11.1 39.6,12.1 42.5,17.1 45.4,13.9 48.3,14.4 51.2,17.5 54.1,19.6 57.0,25.3 59.9,26.1 62.8,27.9 65.7,28.7 68.6,30.0 71.4,26.9 74.3,23.9 77.2,23.0 80.1,20.7 83.0,14.9 85.9,21.1 88.8,20.5 91.7,25.5 94.6,24.5 97.5,20.7 100.4,21.2 103.3,19.6 106.2,18.2 109.1,21.3 112.0,20.6 114.9,15.7 117.7,14.4 120.6,8.4 123.5,6.2 126.4,9.8 129.3,13.4 132.2,14.8 135.1,16.1 138.0,16.3"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">$91.30</strong></span><span>3M<br><strong data-a="3M">$70.44</strong></span><span>6M<br><strong data-a="6M">$112.41</strong></span><span>1Y<br><strong data-a="1Y">$61.69</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: <em class="down">−37.4%</em></div></div>
@@ -817,7 +842,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,4.8 4.9,14.8 7.8,11.7 10.7,11.7 13.6,14.3 16.5,7.9 19.4,3.8 22.3,2.0 25.1,4.7 28.0,10.4 30.9,6.1 33.8,5.2 36.7,8.0 39.6,8.9 42.5,15.5 45.4,13.9 48.3,14.6 51.2,17.0 54.1,19.7 57.0,25.3 59.9,26.0 62.8,27.7 65.7,29.1 68.6,30.0 71.4,25.9 74.3,22.4 77.2,21.3 80.1,18.4 83.0,10.8 85.9,19.0 88.8,18.6 91.7,25.0 94.6,22.9 97.5,18.7 100.4,18.9 103.3,17.3 106.2,15.0 109.1,19.4 112.0,18.4 114.9,14.2 117.7,12.7 120.6,6.2 123.5,5.5 126.4,8.7 129.3,11.8 132.2,8.4 135.1,9.0 138.0,10.7"/>
+    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,4.8 4.9,14.8 7.8,11.7 10.7,11.7 13.6,14.3 16.5,7.9 19.4,3.8 22.3,2.0 25.1,4.7 28.0,10.4 30.9,6.1 33.8,5.2 36.7,8.0 39.6,8.9 42.5,15.5 45.4,13.9 48.3,14.6 51.2,17.0 54.1,19.7 57.0,25.3 59.9,26.0 62.8,27.7 65.7,29.1 68.6,30.0 71.4,25.9 74.3,22.4 77.2,21.3 80.1,18.4 83.0,10.8 85.9,19.0 88.8,18.6 91.7,25.0 94.6,22.9 97.5,18.7 100.4,18.9 103.3,17.3 106.2,15.0 109.1,19.4 112.0,18.4 114.9,14.2 117.7,12.7 120.6,6.2 123.5,5.5 126.4,8.7 129.3,11.8 132.2,8.4 135.1,9.0 138.0,10.7"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">$95.52</strong></span><span>3M<br><strong data-a="3M">$74.16</strong></span><span>6M<br><strong data-a="6M">$109.77</strong></span><span>1Y<br><strong data-a="1Y">$65.47</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: <em class="down">−25.7%</em></div></div>
@@ -834,7 +859,7 @@
     </div>
   </div>
   <svg class="spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
-    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" points="2.0,6.9 4.9,3.8 7.8,4.1 10.7,2.7 13.6,2.0 16.5,5.6 19.4,9.5 22.3,8.8 25.1,10.9 28.0,5.3 30.9,6.8 33.8,11.1 36.7,12.0 39.6,12.4 42.5,13.2 45.4,12.5 48.3,13.0 51.2,20.5 54.1,22.1 57.0,18.1 59.9,23.3 62.8,28.6 65.7,28.9 68.6,25.9 71.4,27.4 74.3,30.0 77.2,28.4 80.1,29.7 83.0,28.5 85.9,27.6 88.8,26.8 91.7,25.0 94.6,20.0 97.5,15.2 100.4,15.3 103.3,15.9 106.2,7.0 109.1,8.0 112.0,12.2 114.9,16.1 117.7,15.3 120.6,16.3 123.5,18.9 126.4,15.7 129.3,17.4 132.2,19.3 135.1,23.8 138.0,25.0"/>
+    <polyline data-line fill="none" stroke="#ff6b7a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points="2.0,6.9 4.9,3.8 7.8,4.1 10.7,2.7 13.6,2.0 16.5,5.6 19.4,9.5 22.3,8.8 25.1,10.9 28.0,5.3 30.9,6.8 33.8,11.1 36.7,12.0 39.6,12.4 42.5,13.2 45.4,12.5 48.3,13.0 51.2,20.5 54.1,22.1 57.0,18.1 59.9,23.3 62.8,28.6 65.7,28.9 68.6,25.9 71.4,27.4 74.3,30.0 77.2,28.4 80.1,29.7 83.0,28.5 85.9,27.6 88.8,26.8 91.7,25.0 94.6,20.0 97.5,15.2 100.4,15.3 103.3,15.9 106.2,7.0 109.1,8.0 112.0,12.2 114.9,16.1 117.7,15.3 120.6,16.3 123.5,18.9 126.4,15.7 129.3,17.4 132.2,19.3 135.1,23.8 138.0,25.0"/>
   </svg>
   <div class="anchors"><span>1M<br><strong data-a="1M">$4,540</strong></span><span>3M<br><strong data-a="3M">$4,157</strong></span><span>6M<br><strong data-a="6M">$4,685</strong></span><span>1Y<br><strong data-a="1Y">$3,976</strong></span></div>
   <div data-vs><div class="vs-core">vs S&amp;P core: <em class="down">−28.9%</em></div></div>
@@ -1000,7 +1025,7 @@
       if (line) {
         line.setAttribute('points', d.sparks[range]);
         line.setAttribute('stroke', dir === 'up' ? '#39d98a' : '#ff6b7a');
-        line.setAttribute('stroke-width', '2.2');
+        line.setAttribute('stroke-width', '2.4');
       }
       if (vsWrap) {
         if (key === CORE) {
