@@ -483,6 +483,8 @@
   .ref-cell .ref-line { display: flex; align-items: baseline; justify-content: center; gap: 8px; white-space: nowrap; }
   .ref-cell svg.ref-spark { display: block; width: 100%; height: 18px; margin: 2px 0 1px; overflow: visible; }
   .ref-cell .ref-move { display: block; text-align: center; font-size: 0.58rem; color: var(--muted); white-space: nowrap; }
+  .ref-cell .ref-anchors { display: flex; justify-content: space-between; gap: 6px; font-size: 0.56rem; color: var(--muted); white-space: nowrap; margin-top: 2px; }
+  .ref-cell .ref-anchors strong { color: var(--text); font-weight: 650; }
 </style>
 </head>
 <body>
@@ -564,10 +566,10 @@
       <div class="section-label">Reference curve · 3M / 2Y / 7Y / 20Y</div>
       <p class="note">Official Daily Treasury Par Yield Curve · day vs Thu 1 Oct · 2s10s +45 bp. Live tape Mon: 2Y ~4.80% · 10Y ~5.26–5.33% · 30Y ~5.61–5.69%.</p>
       <div class="curve curve-compact">
-        <div class="curve-cell ref-cell" data-ref="3M"><div class="ref-line"><div class="tenor">3M</div><div class="yld">4.19%</div><div class="chg up">+2 bp</div></div><svg class="ref-spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points=""/></svg><span class="ref-move" data-ref-move></span></div>
-        <div class="curve-cell ref-cell" data-ref="2Y"><div class="ref-line"><div class="tenor">2Y</div><div class="yld">4.83%</div><div class="chg up">+5 bp</div></div><svg class="ref-spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points=""/></svg><span class="ref-move" data-ref-move></span></div>
-        <div class="curve-cell ref-cell" data-ref="7Y"><div class="ref-line"><div class="tenor">7Y</div><div class="yld">5.17%</div><div class="chg up">+5 bp</div></div><svg class="ref-spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points=""/></svg><span class="ref-move" data-ref-move></span></div>
-        <div class="curve-cell ref-cell" data-ref="20Y"><div class="ref-line"><div class="tenor">20Y</div><div class="yld">5.67%</div><div class="chg up">+3 bp</div></div><svg class="ref-spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points=""/></svg><span class="ref-move" data-ref-move></span></div>
+        <div class="curve-cell ref-cell" data-ref="3M"><div class="ref-line"><div class="tenor">3M</div><div class="yld">4.19%</div><div class="chg up">+2 bp</div></div><svg class="ref-spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points=""/></svg><span class="ref-move" data-ref-move></span><div class="ref-anchors" data-ref-anchors></div></div>
+        <div class="curve-cell ref-cell" data-ref="2Y"><div class="ref-line"><div class="tenor">2Y</div><div class="yld">4.83%</div><div class="chg up">+5 bp</div></div><svg class="ref-spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points=""/></svg><span class="ref-move" data-ref-move></span><div class="ref-anchors" data-ref-anchors></div></div>
+        <div class="curve-cell ref-cell" data-ref="7Y"><div class="ref-line"><div class="tenor">7Y</div><div class="yld">5.17%</div><div class="chg up">+5 bp</div></div><svg class="ref-spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points=""/></svg><span class="ref-move" data-ref-move></span><div class="ref-anchors" data-ref-anchors></div></div>
+        <div class="curve-cell ref-cell" data-ref="20Y"><div class="ref-line"><div class="tenor">20Y</div><div class="yld">5.67%</div><div class="chg up">+3 bp</div></div><svg class="ref-spark" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#39d98a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" points=""/></svg><span class="ref-move" data-ref-move></span><div class="ref-anchors" data-ref-anchors></div></div>
       </div>
     </div>
 
@@ -1104,6 +1106,13 @@
   }
   document.querySelectorAll('.range-tabs button[data-range]').forEach(b=>b.addEventListener('click',()=>renderRef(b.dataset.range)));
   renderRef((document.querySelector('.range-tabs button.active')||{dataset:{range:'6M'}}).dataset.range);
+  function renderRefAnchors(){
+    document.querySelectorAll('[data-ref]').forEach(cell=>{
+      const d=REF[cell.dataset.ref]; const el=cell.querySelector('[data-ref-anchors]'); if(!d||!el) return;
+      el.innerHTML=['1M','3M','6M','1Y'].map(r=>'<span>'+r+' <strong>'+d.anchors[r].toFixed(2)+'%</strong></span>').join('');
+    });
+  }
+  renderRefAnchors();
 </script>
 </body>
 </html>
