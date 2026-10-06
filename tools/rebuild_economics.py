@@ -692,7 +692,7 @@ def main():
             ctx["yahoo_meta"][key] = meta
             if key == "SPX":
                 ctx["spx_6m_start"] = series[-DAILY_N["6M"]][0]
-            updated.append(f"{key} ({sym}) last {e['last']:.4g} @ {meta['asof']}")
+            updated.append(f"{key} ({sym}) last {fmt_price(key, e['kind'], e['last'])} @ {meta['asof']}")
         except Exception as ex:
             kept.append(f"{key} ({sym}): {ex}")
         time.sleep(0.4)
