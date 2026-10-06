@@ -485,6 +485,11 @@
   .ref-cell .ref-move { display: block; text-align: center; font-size: 0.58rem; color: var(--muted); white-space: nowrap; }
   .ref-cell .ref-anchors { display: flex; justify-content: space-between; gap: 6px; font-size: 0.56rem; color: var(--muted); white-space: nowrap; margin-top: 2px; }
   .ref-cell .ref-anchors strong { color: var(--text); font-weight: 650; }
+  /* 6 Oct: range-linked past level */
+  .was { font-size: 0.62rem; color: var(--muted); white-space: nowrap; }
+  .was strong, .ref-move strong { color: var(--cyan); font-weight: 750; }
+  .anchors .anchor-on, .ref-anchors .anchor-on { color: var(--cyan); }
+  .anchors .anchor-on strong, .ref-anchors .anchor-on strong { color: var(--cyan); }
 </style>
 </head>
 <body>
@@ -1113,6 +1118,27 @@
     });
   }
   renderRefAnchors();
+</script>
+<script>
+  /* 6 Oct: range tabs also switch the "was" (past level) shown on every tile */
+  function renderWas(rg){
+    document.querySelectorAll('.spark-tile[data-key]').forEach(tile=>{
+      const a=tile.querySelector('[data-a="'+rg+'"]'); if(!a) return;
+      const title=tile.querySelector('.spark-title')||tile.querySelector('.spark-top');
+      let w=tile.querySelector('[data-was]');
+      if(!w){ w=document.createElement('span'); w.className='was'; w.setAttribute('data-was',''); title.appendChild(w); }
+      w.innerHTML=rg+' ago <strong>'+a.textContent+'</strong>';
+      tile.querySelectorAll('[data-a]').forEach(x=>x.parentElement.classList.toggle('anchor-on',x.dataset.a===rg));
+    });
+    document.querySelectorAll('[data-ref]').forEach(cell=>{
+      const d=REF[cell.dataset.ref]; if(!d) return;
+      const m=cell.querySelector('[data-ref-move]'); const bp=d.chg[rg];
+      if(m) m.innerHTML=rg+' ago <strong>'+d.anchors[rg].toFixed(2)+'%</strong> · '+(bp>=0?'+':'')+bp+' bp';
+      cell.querySelectorAll('.ref-anchors span').forEach(x=>x.classList.toggle('anchor-on',x.textContent.trim().startsWith(rg+' ')));
+    });
+  }
+  document.querySelectorAll('.range-tabs button[data-range]').forEach(b=>b.addEventListener('click',()=>setTimeout(()=>renderWas(b.dataset.range),0)));
+  renderWas((document.querySelector('.range-tabs button.active')||{dataset:{range:'6M'}}).dataset.range);
 </script>
 </body>
 </html>
