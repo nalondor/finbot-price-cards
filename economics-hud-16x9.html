@@ -424,6 +424,23 @@
   .range-tabs button { padding: 4px 9px; }
   .controls-bar { margin: 0 0 8px; }
   .ref-curve-wrap { margin: 6px 0 8px; padding: 6px 8px 5px; }
+
+  /* 6 Oct: yellow-star rows (Treasuries 10Y/5Y/30Y + reference curve) thinner, one-line text */
+  .spark-tile.yield-tile { padding: 5px 8px 4px; }
+  .yield-tile .spark-title { flex-direction: row; align-items: baseline; gap: 8px; white-space: nowrap; }
+  .yield-tile .spark-top { margin-bottom: 0; }
+  .yield-tile svg.spark { height: 24px !important; margin: 1px 0 2px; }
+  .yield-tile .anchors { display: flex; gap: 10px; white-space: nowrap; overflow: hidden; }
+  .yield-tile .anchors br { display: none; }
+  .yield-tile .anchors strong { margin-left: 3px; }
+  .yield-tile .vs-core { display: inline; margin: 0; white-space: nowrap; }
+  .ref-curve-wrap { padding: 4px 8px 4px; margin: 4px 0 6px; }
+  .ref-curve-wrap .section-label { margin: 0 0 3px; }
+  .curve.curve-compact { gap: 6px; }
+  .curve-compact .curve-cell { display: flex; align-items: baseline; justify-content: center; gap: 8px; padding: 4px 8px; white-space: nowrap; min-height: 0; }
+  .curve-compact .curve-cell .tenor, .curve-compact .curve-cell .yld, .curve-compact .curve-cell .chg { margin: 0; }
+  .curve-compact .curve-cell .yld { font-size: 0.95rem; }
+  .ref-curve-wrap .note { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 3px 2px 0; }
 </style>
 </head>
 <body>
