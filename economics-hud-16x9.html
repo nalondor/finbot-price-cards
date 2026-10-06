@@ -410,6 +410,20 @@
     grid-template-columns: 1fr 1.15fr 1.15fr;
   }
   .panel, .stage, .spark-tile { overflow: visible; }
+
+  /* compact pass 6 Oct: thinner bars so more fits */
+  .spark-tile { min-height: 0 !important; padding: 6px 8px 5px; }
+  .spark-tile.yield-tile { min-height: 0 !important; }
+  svg.spark, .spark-tile.yield-tile svg.spark { height: 28px !important; min-height: 0 !important; margin: 2px 0 3px; }
+  .spark-top { margin-bottom: 2px; }
+  .anchors { line-height: 1.15; }
+  .vs-core { margin-top: 2px; }
+  .section-sparks, .section-sparks.treasuries-primary { gap: 6px; margin-bottom: 6px; }
+  .section-label { margin: 8px 0 5px; }
+  .range-tabs { margin: 0 0 6px; }
+  .range-tabs button { padding: 4px 9px; }
+  .controls-bar { margin: 0 0 8px; }
+  .ref-curve-wrap { margin: 6px 0 8px; padding: 6px 8px 5px; }
 </style>
 </head>
 <body>
