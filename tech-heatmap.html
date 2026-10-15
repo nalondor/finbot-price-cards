@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tech Heat Map · Mag 7 + Big Tech · Thu 15 Oct 2026 · ~6:41pm London</title>
+<style>
+  :root {
+    --text: #f2f6ff;
+    --muted: #9aa8c7;
+    --cyan: #5ce1ff;
+    --glass: rgba(18, 24, 48, 0.55);
+    --glass-edge: rgba(92, 225, 255, 0.45);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 28px 14px 40px;
+    font-family: "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(900px 520px at 15% 10%, #1a2b6b 0%, transparent 55%),
+      radial-gradient(800px 480px at 90% 20%, #0d4a5c 0%, transparent 50%),
+      radial-gradient(700px 500px at 50% 100%, #1a1040 0%, transparent 55%),
+      #070b18;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -20%;
+    background: conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(92,225,255,0.07) 60deg, transparent 120deg, rgba(57,217,138,0.05) 200deg, transparent 280deg);
+    animation: spin 28s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .wrap {
+    position: relative;
+    z-index: 2;
+    width: min(960px, 100%);
+    margin: 0 auto;
+    padding: 22px 18px 18px;
+    border-radius: 22px;
+    background: var(--glass);
+    border: 1px solid var(--glass-edge);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04) inset,
+      0 0 40px rgba(92, 225, 255, 0.12),
+      0 24px 60px rgba(0,0,0,0.45);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+  }
+  h1 {
+    margin: 0 0 4px;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .stamp {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 18px;
+  }
+  h2 {
+    margin: 16px 0 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .cell {
+    border-radius: 14px;
+    padding: 12px 10px 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    min-height: 108px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .sym {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .name {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .price {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  .chg {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+  .legend {
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--muted);
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .swatch {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Tech Heat Map</h1>
+    <div class="stamp">Thu 15 Oct 2026 · ~6:41pm London · daily move · Yahoo</div>
+    <h2>Magnificent 7</h2>
+    <div class="grid">
+    <div class="cell" style="background:rgba(57,217,138,0.27)">
+      <div class="sym">AAPL</div>
+      <div class="name">Apple</div>
+      <div class="price">$344.25</div>
+      <div class="chg" style="color:#39d98a">+0.38%</div>
+    </div>
+    <div class="cell" style="background:rgba(57,217,138,0.38)">
+      <div class="sym">MSFT</div>
+      <div class="name">Microsoft</div>
+      <div class="price">$539.86</div>
+      <div class="chg" style="color:#39d98a">+1.16%</div>
+    </div>
+    <div class="cell" style="background:rgba(255,107,122,0.42)">
+      <div class="sym">NVDA</div>
+      <div class="name">Nvidia</div>
+      <div class="price">$218.03</div>
+      <div class="chg" style="color:#ff6b7a">-1.48%</div>
+    </div>
+    <div class="cell" style="background:rgba(57,217,138,0.25)">
+      <div class="sym">AMZN</div>
+      <div class="name">Amazon</div>
+      <div class="price">$254.68</div>
+      <div class="chg" style="color:#39d98a">+0.24%</div>
+    </div>
+    <div class="cell" style="background:rgba(57,217,138,0.31)">
+      <div class="sym">GOOGL</div>
+      <div class="name">Alphabet</div>
+      <div class="price">$350.03</div>
+      <div class="chg" style="color:#39d98a">+0.69%</div>
+    </div>
+    <div class="cell" style="background:rgba(57,217,138,0.32)">
+      <div class="sym">META</div>
+      <div class="name">Meta</div>
+      <div class="price">$742.68</div>
+      <div class="chg" style="color:#39d98a">+0.70%</div>
+    </div>
+    <div class="cell" style="background:rgba(255,107,122,0.44)">
+      <div class="sym">TSLA</div>
+      <div class="name">Tesla</div>
+      <div class="price">$361.35</div>
+      <div class="chg" style="color:#ff6b7a">-1.58%</div>
+    </div>
+    </div>
+    <h2>Other big tech</h2>
+    <div class="grid">
+    <div class="cell" style="background:rgba(57,217,138,0.77)">
+      <div class="sym">INTU</div>
+      <div class="name">Intuit</div>
+      <div class="price">$329.77</div>
+      <div class="chg" style="color:#39d98a">+6.23%</div>
+    </div>
+    <div class="cell" style="background:rgba(57,217,138,0.77)">
+      <div class="sym">NOW</div>
+      <div class="name">ServiceNow</div>
+      <div class="price">$147.53</div>
+      <div class="chg" style="color:#39d98a">+5.39%</div>
+    </div>
+    <div class="cell" style="background:rgba(57,217,138,0.76)">
+      <div class="sym">ADBE</div>
+      <div class="name">Adobe</div>
+      <div class="price">$250.11</div>
+      <div class="chg" style="color:#39d98a">+3.92%</div>
+    </div>
+    <div class="cell" style="background:rgba(57,217,138,0.74)">
+      <div class="sym">CRM</div>
+      <div class="name">Salesforce</div>
+      <div class="price">$244.80</div>
+      <div class="chg" style="color:#39d98a">+3.75%</div>
+    </div>
+    <div class="cell" style="background:rgba(57,217,138,0.66)">
+      <div class="sym">NFLX</div>
+      <div class="name">Netflix</div>
+      <div class="price">$72.82</div>
+      <div class="chg" style="color:#39d98a">+3.19%</div>
+    </div>
+    <div class="cell" style="background:rgba(57,217,138,0.65)">
+      <div class="sym">ORCL</div>
+      <div class="name">Oracle</div>
+      <div class="price">$134.62</div>
+      <div class="chg" style="color:#39d98a">+3.12%</div>
+    </div>
+    <div class="cell" style="background:rgba(57,217,138,0.58)">
+      <div class="sym">QCOM</div>
+      <div class="name">Qualcomm</div>
+      <div class="price">$177.13</div>
+      <div class="chg" style="color:#39d98a">+2.61%</div>
+    </div>
+    <div class="cell" style="background:rgba(255,107,122,0.24)">
+      <div class="sym">MU</div>
+      <div class="name">Micron</div>
+      <div class="price">$912.99</div>
+      <div class="chg" style="color:#ff6b7a">-0.12%</div>
+    </div>
+    <div class="cell" style="background:rgba(255,107,122,0.29)">
+      <div class="sym">PLTR</div>
+      <div class="name">Palantir</div>
+      <div class="price">$199.97</div>
+      <div class="chg" style="color:#ff6b7a">-0.50%</div>
+    </div>
+    <div class="cell" style="background:rgba(255,107,122,0.47)">
+      <div class="sym">AVGO</div>
+      <div class="name">Broadcom</div>
+      <div class="price">$339.92</div>
+      <div class="chg" style="color:#ff6b7a">-1.83%</div>
+    </div>
+    <div class="cell" style="background:rgba(255,107,122,0.65)">
+      <div class="sym">AMD</div>
+      <div class="name">AMD</div>
+      <div class="price">$553.09</div>
+      <div class="chg" style="color:#ff6b7a">-3.11%</div>
+    </div>
+    <div class="cell" style="background:rgba(255,107,122,0.71)">
+      <div class="sym">CSCO</div>
+      <div class="name">Cisco</div>
+      <div class="price">$109.58</div>
+      <div class="chg" style="color:#ff6b7a">-3.57%</div>
+    </div>
+    <div class="cell" style="background:rgba(255,107,122,0.76)">
+      <div class="sym">INTC</div>
+      <div class="name">Intel</div>
+      <div class="price">$94.28</div>
+      <div class="chg" style="color:#ff6b7a">-3.91%</div>
+    </div>
+    </div>
+    <div class="legend">
+      <span><span class="swatch" style="background:rgba(57,217,138,0.7)"></span>up (darker = bigger)</span>
+      <span><span class="swatch" style="background:rgba(255,107,122,0.7)"></span>down (darker = bigger)</span>
+      <span>Price and % vs prior close</span>
+    </div>
+  </div>
+</body>
+</html>
